@@ -1,0 +1,2653 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مكتبنا الخاص | مساحة العمل الثنائية عن بُعد</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            office: {
+              900: '#0b0f19',
+              800: '#111827',
+              700: '#1f2937',
+              600: '#374151',
+              accent: '#10b981',
+              indigo: '#6366f1'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-color: #090d16;
+    }
+    .whatsapp-bg {
+      background-color: #0b141a;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+    .pulse-ring {
+      animation: pulseRing 2s infinite;
+    }
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+      70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .wave-bar {
+      animation: waveBounce 0.9s infinite ease-in-out alternate;
+    }
+    @keyframes waveBounce {
+      0% { height: 4px; }
+      100% { height: 18px; }
+    }
+    .doc-editor:focus {
+      outline: none;
+    }
+    .doc-editor h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; color: #34d399; }
+    .doc-editor h2 { font-size: 1.2rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #818cf8; }
+    .doc-editor p { margin-bottom: 0.5rem; line-height: 1.8; }
+    .doc-editor ul { list-style-type: disc; padding-right: 1.5rem; margin: 0.6rem 0; }
+    .doc-editor blockquote { border-right: 4px solid #10b981; padding-right: 0.85rem; color: #94a3b8; margin: 0.75rem 0; }
+  </style>
+</head>
+<body class="bg-[#090d16] text-slate-100 min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <!-- 1. ULTRA-CLEAN MINIMAL TOP BAR -->
+  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 py-3 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Right: Brand & Clean Online Presence Pills -->
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-md shadow-emerald-600/20">
+            <i class="fa-solid fa-house-laptop text-white text-sm"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-sm sm:text-base text-white leading-tight" id="projectTitleDisplay">مكتبنا الافتراضي الخاص</h1>
+            <span class="text-[11px] text-slate-400">خاص لشخصين فقط • رمز: <strong id="roomCodeBadge" class="text-emerald-400 font-mono">DUO-8842</strong></span>
+          </div>
+        </div>
+
+        <!-- Clean Presence Pill (Me + Partner) -->
+        <div class="flex items-center gap-2 bg-slate-950/90 border border-slate-800 px-3 py-1.5 rounded-full">
+          <!-- Me -->
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="hidden" id="myAvatarBadge">أ</span>
+            <span class="text-xs font-semibold text-slate-200" id="myNameLabel">أحمد (أنت)</span>
+          </div>
+          <span class="text-slate-700">|</span>
+          <!-- Partner -->
+          <div class="flex items-center gap-1.5">
+            <span id="partnerDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-ring"></span>
+            <span class="hidden" id="partnerAvatarBadge">خ</span>
+            <span class="text-xs font-bold text-white" id="partnerNameLabel">خالد</span>
+            <span id="partnerStatusText" class="text-[11px] text-emerald-400 font-medium">متصل الآن</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Left: One-Click Call Controls & Quick Settings -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <!-- Compact Call Bar -->
+        <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 p-1 rounded-xl">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-ping mr-1.5" id="callLiveIndicator"></span>
+          <span id="callTimerBadge" class="text-[11px] font-mono text-emerald-400 px-1.5">00:00</span>
+
+          <button id="toggleMicBtn" type="button" class="flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-600/30 transition text-xs font-semibold" title="كتم / تشغيل المايك">
+            <i class="fa-solid fa-microphone text-xs" id="micBtnIcon"></i>
+            <span id="micBtnLabel" class="hidden sm:inline text-[11px]">المايك مفعل</span>
+          </button>
+
+          <button id="toggleCamBtn" type="button" class="flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold" title="تشغيل / إيقاف الكاميرا">
+            <i class="fa-solid fa-video-slash text-xs" id="camBtnIcon"></i>
+            <span id="camBtnLabel" class="hidden sm:inline text-[11px]">الكاميرا مغلقة</span>
+          </button>
+
+          <button id="toggleScreenBtn" type="button" class="flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold" title="مشاركة الشاشة مع صاحبك">
+            <i class="fa-solid fa-desktop text-xs" id="screenBtnIcon"></i>
+            <span id="screenBtnLabel" class="hidden sm:inline text-[11px]">مشاركة الشاشة</span>
+          </button>
+
+          <button id="toggleDeafenBtn" type="button" class="flex items-center gap-1.5 py-1.5 px-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold" title="كتم/تشغيل سماعة الرأس">
+            <i class="fa-solid fa-headphones text-xs" id="deafenBtnIcon"></i>
+            <span id="deafenBtnLabel" class="hidden">الصوت مسموع</span>
+          </button>
+
+          <button id="toggleVideoDrawerBtn" type="button" class="flex items-center gap-1 py-1.5 px-2.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/30 transition text-xs font-semibold" title="إظهار أو إخفاء شاشات الفيديو">
+            <i class="fa-solid fa-tv text-xs"></i>
+            <span class="text-[11px]" id="videoDrawerBtnText">شاشات البث</span>
+          </button>
+        </div>
+
+        <!-- Toggle Extra Helper Bar -->
+        <button id="toggleExtraToolsBtn" type="button" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-2 rounded-xl text-xs transition flex items-center gap-1" title="أدوات التجربة والمؤقت">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+
+        <!-- Live P2P Internet Connect Button -->
+        <button id="connectP2PBtn" type="button" class="bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="ربط مباشر عبر الإنترنت مع جهاز صاحبك">
+          <i class="fa-solid fa-wifi text-xs" id="p2pStatusIcon"></i>
+          <span id="p2pStatusLabel" class="hidden sm:inline text-[11px]">ربط الجهازين</span>
+        </button>
+
+        <!-- Settings Modal Button -->
+        <button id="openSettingsModalBtn" type="button" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-2 rounded-xl text-xs transition" title="إعدادات الأسماء والمكتب">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Secondary Tools Bar (Hidden by default to keep UI super clean!) -->
+    <div id="extraToolsBar" class="hidden max-w-5xl mx-auto pt-3 mt-3 border-t border-slate-800/80 flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-2 flex-wrap">
+        <button id="switchIdentityBtn" type="button" class="bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-repeat"></i>
+          <span id="activeIdentityBtnText">التجربة بصفتي: أحمد</span>
+        </button>
+        <button id="togglePartnerOnlineBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+          تبديل الحالة
+        </button>
+        <button id="copyRoomBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+          نسخ الرمز
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Pomodoro -->
+        <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg">
+          <i class="fa-solid fa-clock text-amber-400"></i>
+          <span>مؤقت التركيز:</span>
+          <span id="pomodoroDisplay" class="font-mono font-bold text-white">25:00</span>
+          <button id="pomodoroToggleBtn" type="button" class="text-emerald-400 hover:text-emerald-300 px-1">
+            <i class="fa-solid fa-play" id="pomodoroIcon"></i>
+          </button>
+          <button id="pomodoroResetBtn" type="button" class="text-slate-400 hover:text-slate-200 px-1">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+
+        <!-- Ambient Sound -->
+        <button id="ambientSoundBtn" type="button" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition">
+          تشغيل <i class="fa-solid fa-volume-low mr-1"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Video & Screen Share Drawer (Opens smoothly when needed or when Cam/Screen is clicked) -->
+    <div id="videoStudioDrawer" class="hidden max-w-5xl mx-auto pt-3 mt-3 border-t border-slate-800">
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-bold text-slate-300 flex items-center gap-2">
+            <i class="fa-solid fa-video text-emerald-400"></i>
+            شاشات الكاميرا ومشاركة الشاشة المباشرة
+          </span>
+          <div class="flex items-center gap-2">
+            <button id="expandScreenModalBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1.5 border border-slate-700 transition">
+              <i class="fa-solid fa-expand text-emerald-400"></i>
+              <span>تكبير شاشة العرض المشترك</span>
+            </button>
+            <button id="closeVideoDrawerBtn" type="button" class="text-xs text-slate-400 hover:text-white px-2 py-1">
+              إخفاء <i class="fa-solid fa-chevron-up"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="videoStreamsContainer">
+          <!-- My Stream Box -->
+          <div class="relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 aspect-video max-h-48 w-full flex items-center justify-center">
+            <video id="localVideo" autoplay muted playsinline class="w-full h-full object-cover hidden"></video>
+            <canvas id="simulatedScreenCanvas" class="w-full h-full object-cover hidden"></canvas>
+            <div id="localCameraOffView" class="flex flex-col items-center justify-center gap-1 text-center p-2">
+              <div class="w-11 h-11 rounded-full bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold text-base">
+                <span id="localVideoInitial">أ</span>
+              </div>
+              <span class="text-xs font-bold text-slate-200" id="localVideoName">أحمد (أنت)</span>
+              <span id="localMediaStatusBadge" class="text-[11px] text-slate-400">الكاميرا مغلقة • المايك مفعل</span>
+            </div>
+            <div id="localAudioWaves" class="absolute bottom-2 left-2 flex items-end gap-0.5 h-4 bg-slate-950/80 px-1.5 py-0.5 rounded">
+              <span class="w-1 bg-emerald-400 rounded-full wave-bar" style="animation-delay:0.1s"></span>
+              <span class="w-1 bg-emerald-400 rounded-full wave-bar" style="animation-delay:0.3s"></span>
+              <span class="w-1 bg-emerald-400 rounded-full wave-bar" style="animation-delay:0.2s"></span>
+            </div>
+            <div class="absolute top-2 right-2 bg-slate-950/80 text-[10px] text-white px-2 py-0.5 rounded flex items-center gap-1">
+              <i class="fa-solid fa-microphone text-emerald-400" id="localMicOverlayIcon"></i>
+              <span>أنت</span>
+            </div>
+          </div>
+
+          <!-- Partner Stream Box -->
+          <div class="relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 aspect-video max-h-48 w-full flex items-center justify-center">
+            <video id="partnerLiveVideo" autoplay playsinline class="w-full h-full object-cover hidden"></video>
+            <canvas id="partnerVideoCanvas" width="360" height="202" class="w-full h-full object-cover hidden"></canvas>
+            <div id="partnerCameraOffView" class="flex flex-col items-center justify-center gap-1 text-center p-2">
+              <div class="w-11 h-11 rounded-full bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 font-bold text-base">
+                <span id="partnerVideoInitial">خ</span>
+              </div>
+              <span class="text-xs font-bold text-slate-200" id="partnerVideoName">خالد (صاحبي)</span>
+              <span id="partnerStreamStateText" class="text-[11px] text-emerald-400">متصل صوتياً • يستمع</span>
+            </div>
+            <div id="partnerAudioWaves" class="absolute bottom-2 left-2 flex items-end gap-0.5 h-4 bg-slate-950/80 px-1.5 py-0.5 rounded">
+              <span class="w-1 bg-indigo-400 rounded-full wave-bar" style="animation-delay:0.15s"></span>
+              <span class="w-1 bg-indigo-400 rounded-full wave-bar" style="animation-delay:0.35s"></span>
+              <span class="w-1 bg-indigo-400 rounded-full wave-bar" style="animation-delay:0.05s"></span>
+            </div>
+            <div class="absolute top-2 right-2 bg-slate-950/80 text-[10px] text-white px-2 py-0.5 rounded flex items-center gap-1">
+              <i class="fa-solid fa-volume-high text-indigo-400" id="partnerAudioOverlayIcon"></i>
+              <span id="partnerOverlayTag">صاحبي</span>
+            </div>
+            <button id="togglePartnerCamSimBtn" type="button" class="absolute bottom-2 right-2 bg-slate-800/90 hover:bg-slate-700 text-[10px] text-slate-200 px-2.5 py-1 rounded-lg border border-slate-700 transition">
+              <i class="fa-solid fa-eye text-indigo-400 ml-1"></i>معاينة بث صاحبي
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. SIMPLE, SPACIOUS MAIN NAVIGATION TABS -->
+  <div class="bg-slate-900/50 border-b border-slate-800/70 px-4 py-2.5">
+    <nav class="max-w-5xl mx-auto flex items-center gap-2 overflow-x-auto no-scrollbar">
+      <button type="button" data-tab="master-doc" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap">
+        <i class="fa-solid fa-file-signature"></i>
+        <span>الملف الرئيسي المشترك</span> <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full">مباشر</span>
+      </button>
+
+      <button type="button" data-tab="chat-room" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+        <span>المحادثة الخاصة</span>
+        <span id="chatCountBadge" class="text-[11px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full">3</span>
+      </button>
+
+      <button type="button" data-tab="files-research" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-solid fa-folder-open text-amber-400"></i>
+        <span>الملفات والأبحاث</span>
+        <span id="filesCountBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">4</span>
+      </button>
+
+      <button type="button" data-tab="ideas" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+        <span>قسم الأفكار</span>
+        <span id="ideasCountBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">3</span>
+      </button>
+
+      <button type="button" data-tab="suggestions" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i>
+        <span>قسم الاقتراحات</span>
+        <span id="suggestionsCountBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">3</span>
+      </button>
+
+      <button type="button" data-tab="tasks-whiteboard" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-solid fa-list-check text-cyan-400"></i>
+        <span>المهام والسبورة الذكية</span>
+        <span id="tasksCountBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">4</span>
+      </button>
+
+      <button type="button" data-tab="history-log" class="workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+        <i class="fa-solid fa-clock-rotate-left text-rose-400"></i>
+        <span>سجل التواريخ والنشاط</span>
+        <span id="historyCountBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">10</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 3. SINGLE FOCUSED CONTENT AREA (Calm, Clean, Uncluttered) -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col">
+
+    <!-- SECTION 1: MASTER COLLABORATIVE DOCUMENT -->
+    <section id="tab-master-doc" class="workspace-section flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <!-- Clean Header -->
+      <div class="p-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-bold text-white">الملف الرئيسي المشترك</h2>
+            <span id="docSyncBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+              متزامن لحظياً بينكما
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5" id="docLastEditedInfo">آخر تعديل: اليوم</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="simulatePartnerTypingDocBtn" type="button" class="text-xs bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-xl transition">
+            <i class="fa-solid fa-user-pen ml-1"></i>محاكاة كتابة صاحبي
+          </button>
+          <button id="saveDocSnapshotBtn" type="button" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-xl font-bold transition">
+            <i class="fa-solid fa-bookmark ml-1"></i>حفظ نسخة بتاريخ الآن
+          </button>
+        </div>
+      </div>
+
+      <!-- Simple Formatting Bar -->
+      <div class="px-4 py-2 bg-slate-950/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5">
+          <button type="button" data-cmd="bold" class="doc-format-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 text-xs" title="عريض"><i class="fa-solid fa-bold"></i></button>
+          <button type="button" data-cmd="italic" class="doc-format-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 text-xs" title="مائل"><i class="fa-solid fa-italic"></i></button>
+          <button type="button" data-cmd="underline" class="doc-format-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 text-xs" title="تسطير"><i class="fa-solid fa-underline"></i></button>
+          <button type="button" id="insertHeadingBtn" class="px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 text-xs font-bold">H2</button>
+          <button type="button" data-cmd="insertUnorderedList" class="doc-format-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 text-xs"><i class="fa-solid fa-list-ul"></i></button>
+          <button type="button" id="insertChecklistItemBtn" class="px-2.5 py-1 rounded-lg hover:bg-slate-800 text-emerald-400 text-xs font-semibold"><i class="fa-regular fa-square-check"></i> بند</button>
+          <button type="button" id="insertTimestampInDocBtn" class="px-2.5 py-1 rounded-lg hover:bg-slate-800 text-amber-400 text-xs font-semibold"><i class="fa-regular fa-clock"></i> ختم الوقت</button>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400">
+          <span id="partnerLiveCursorTag" class="hidden text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/30 animate-pulse">
+            خالد يكتب الآن...
+          </span>
+          <span id="docWordCount">0 كلمة</span>
+        </div>
+      </div>
+
+      <!-- Spacious Document Writing Area -->
+      <div class="flex-1 p-5 sm:p-7 overflow-y-auto bg-slate-950/30">
+        <div id="masterDocEditor" contenteditable="true" class="doc-editor min-h-[380px] text-sm sm:text-base leading-relaxed text-slate-100 focus:outline-none"></div>
+      </div>
+
+      <!-- Clean Footer with Saved Timestamps -->
+      <div class="px-4 py-3 bg-slate-950/80 border-t border-slate-800 flex items-center gap-3 overflow-x-auto">
+        <span class="text-xs text-slate-400 shrink-0"><i class="fa-regular fa-clock ml-1 text-emerald-400"></i>آخر النسخ المحفوظة:</span>
+        <div id="docSnapshotsList" class="flex gap-2 overflow-x-auto"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: WHATSAPP-STYLE PRIVATE CHAT (Full Spacious View) -->
+    <section id="tab-chat-room" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg min-h-[540px]">
+      <!-- Chat Header -->
+      <div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white text-sm" id="chatHeaderAvatar">خ</div>
+            <span id="chatHeaderOnlineDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 absolute bottom-0 left-0 ring-2 ring-slate-900"></span>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white" id="chatPartnerTitle">خالد (المحادثة الخاصة)</h3>
+            <p id="chatPartnerSubStatus" class="text-xs text-emerald-400">متصل الآن • محادثة خاصة بفويس نوت ومشاركة ملفات</p>
+          </div>
+        </div>
+
+        <button id="simulatePartnerReplyBtn" type="button" class="text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-xl font-semibold transition">
+          <i class="fa-solid fa-comment-dots ml-1"></i>رد من صاحبي
+        </button>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="chatMessagesContainer" class="flex-1 whatsapp-bg p-4 sm:p-6 overflow-y-auto space-y-3 min-h-[380px] max-h-[500px]"></div>
+
+      <!-- Attachment Preview Bar -->
+      <div id="chatAttachmentPreviewBar" class="hidden bg-slate-800 border-t border-slate-700 px-4 py-2.5 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 truncate">
+          <i class="fa-solid fa-paperclip text-emerald-400"></i>
+          <span id="chatAttachmentName" class="text-xs text-slate-200 truncate"></span>
+        </div>
+        <button id="cancelChatAttachmentBtn" type="button" class="text-xs text-rose-400 hover:text-rose-300 font-semibold">إلغاء</button>
+      </div>
+
+      <!-- Voice Note Recording Bar -->
+      <div id="voiceRecordingBar" class="hidden bg-rose-950/90 border-t border-rose-800 px-4 py-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 rounded-full bg-rose-500 animate-ping"></span>
+          <span class="text-xs sm:text-sm font-bold text-rose-200">جاري تسجيل فويس نوت...</span>
+          <span id="voiceRecordTimer" class="font-mono text-xs text-white bg-rose-900 px-2.5 py-0.5 rounded-lg">00:00</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="cancelVoiceNoteBtn" type="button" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs hover:bg-slate-700">حذف</button>
+          <button id="finishVoiceNoteBtn" type="button" class="px-4 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500 flex items-center gap-1.5">
+            <i class="fa-solid fa-paper-plane"></i> إرسال الفويس
+          </button>
+        </div>
+      </div>
+
+      <!-- Emoji Strip -->
+      <div id="emojiPickerStrip" class="hidden bg-slate-900 border-t border-slate-800 px-4 py-2 flex items-center gap-3 overflow-x-auto">
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">🔥</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">👍</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">👏</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">💡</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">✅</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">🚀</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">❤️</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">😂</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">🤝</button>
+        <button type="button" class="emoji-btn text-lg hover:scale-125 transition">⚡</button>
+      </div>
+
+      <!-- WhatsApp Input Bar -->
+      <div class="bg-slate-900 border-t border-slate-800 p-3 flex items-center gap-2">
+        <button id="toggleEmojiBtn" type="button" class="p-2.5 rounded-full text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition" title="إيموجي">
+          <i class="fa-regular fa-face-smile text-lg"></i>
+        </button>
+
+        <label for="chatImageInput" class="p-2.5 rounded-full text-slate-400 hover:text-emerald-400 hover:bg-slate-800 cursor-pointer transition" title="مشاركة صورة">
+          <i class="fa-regular fa-image text-lg"></i>
+        </label>
+        <input id="chatImageInput" type="file" accept="image/*" class="hidden" />
+
+        <label for="chatFileInput" class="p-2.5 rounded-full text-slate-400 hover:text-amber-400 hover:bg-slate-800 cursor-pointer transition" title="مشاركة ملف">
+          <i class="fa-solid fa-paperclip text-lg"></i>
+        </label>
+        <input id="chatFileInput" type="file" class="hidden" />
+
+        <input id="chatTextInput" type="text" placeholder="اكتب رسالتك هنا..." class="flex-1 bg-slate-800 border border-slate-700 rounded-full px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+
+        <button id="startVoiceNoteBtn" type="button" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-rose-600/20 text-rose-400 border border-slate-700 flex items-center justify-center transition" title="تسجيل فويس نوت">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+
+        <button id="sendChatMsgBtn" type="button" class="w-10 h-10 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-md transition" title="إرسال">
+          <i class="fa-solid fa-paper-plane text-sm"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 3: FILES & RESEARCH -->
+    <section id="tab-files-research" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <div class="p-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 class="text-base font-bold text-white">الملفات والأبحاث المشتركة</h2>
+          <p class="text-xs text-slate-400">كل ملف أو بحث يُضاف يُكتب عليه تلقائياً تاريخ وساعة إضافته ومن قام برفعه.</p>
+        </div>
+        <input id="searchFilesInput" type="text" placeholder="ابحث في الملفات..." class="bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 w-full sm:w-56" />
+      </div>
+
+      <!-- Simple Clean Add Form -->
+      <div class="p-4 bg-slate-950/50 border-b border-slate-800 space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <input id="fileTitleInput" type="text" placeholder="اسم الملف أو عنوان البحث..." class="sm:col-span-2 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-emerald-500 focus:outline-none" />
+          <select id="fileCategorySelect" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none">
+            <option value="بحث ودراسة">📚 بحث ودراسة</option>
+            <option value="ملف مشروع">📁 ملف مشروع</option>
+            <option value="تصميم / صورة">🎨 تصميم / صورة</option>
+            <option value="مرجع / رابط">🔗 مرجع / رابط</option>
+          </select>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="fileNotesInput" type="text" placeholder="ملاحظة مختصرة عن الملف..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-emerald-500 focus:outline-none" />
+          <label for="realFileUploadInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-200 flex items-center justify-center gap-2 shrink-0">
+            <i class="fa-solid fa-cloud-arrow-up text-amber-400"></i>
+            <span id="selectedFileNameLabel" class="truncate max-w-[180px]">إرفاق ملف من جهازك</span>
+          </label>
+          <input id="realFileUploadInput" type="file" class="hidden" />
+          <button id="addFileItemBtn" type="button" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shrink-0">
+            <i class="fa-solid fa-plus ml-1"></i>إضافة
+          </button>
+        </div>
+      </div>
+
+      <div id="filesListContainer" class="flex-1 p-4 overflow-y-auto space-y-3"></div>
+    </section>
+
+    <!-- SECTION 4: IDEAS -->
+    <section id="tab-ideas" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <div class="p-4 border-b border-slate-800">
+        <h2 class="text-base font-bold text-white">قسم الأفكار الإبداعية</h2>
+        <p class="text-xs text-slate-400">سجّل أفكارك للمشروع مع حفظ تاريخ وساعة الإضافة والتصويت عليها.</p>
+      </div>
+
+      <div class="p-4 bg-slate-950/50 border-b border-slate-800 space-y-2.5">
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="ideaTitleInput" type="text" placeholder="عنوان الفكرة..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-yellow-500 focus:outline-none" />
+          <select id="ideaTagSelect" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none">
+            <option value="فكرة رئيسية">🚀 فكرة رئيسية</option>
+            <option value="ميزة جديدة">✨ ميزة جديدة</option>
+            <option value="تسويق ونمو">📈 تسويق ونمو</option>
+            <option value="ابتكار تقني">⚡ ابتكار تقني</option>
+          </select>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="ideaDescInput" type="text" placeholder="تفاصيل الفكرة باختصار..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-yellow-500 focus:outline-none" />
+          <button id="addIdeaBtn" type="button" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shrink-0">
+            <i class="fa-solid fa-plus ml-1"></i>إضافة الفكرة
+          </button>
+        </div>
+      </div>
+
+      <div id="ideasListContainer" class="flex-1 p-4 overflow-y-auto space-y-3"></div>
+    </section>
+
+    <!-- SECTION 5: SUGGESTIONS -->
+    <section id="tab-suggestions" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <div class="p-4 border-b border-slate-800">
+        <h2 class="text-base font-bold text-white">قسم الاقتراحات</h2>
+        <p class="text-xs text-slate-400">اقترح أي تحسين أو خطوة قادمة للمشروع ليوافق عليها صاحبك مع توثيق تاريخ الاقتراح.</p>
+      </div>
+
+      <div class="p-4 bg-slate-950/50 border-b border-slate-800 space-y-2.5">
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="suggestionTitleInput" type="text" placeholder="عنوان الاقتراح..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-purple-500 focus:outline-none" />
+          <select id="suggestionPrioritySelect" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none">
+            <option value="أولوية عالية">🔥 أولوية عالية</option>
+            <option value="أولوية متوسطة">⚡ أولوية متوسطة</option>
+            <option value="للنقاش">💬 للنقاش</option>
+          </select>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="suggestionReasonInput" type="text" placeholder="لماذا نقترح هذه الخطوة؟" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:border-purple-500 focus:outline-none" />
+          <button id="addSuggestionBtn" type="button" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shrink-0">
+            <i class="fa-solid fa-paper-plane ml-1"></i>طرح الاقتراح
+          </button>
+        </div>
+      </div>
+
+      <div id="suggestionsListContainer" class="flex-1 p-4 overflow-y-auto space-y-3"></div>
+    </section>
+
+    <!-- SECTION 6: TASKS & WHITEBOARD -->
+    <section id="tab-tasks-whiteboard" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <div class="p-4 border-b border-slate-800">
+        <h2 class="text-base font-bold text-white">المهام المشتركة والسبورة التفاعلية</h2>
+        <p class="text-xs text-slate-400">رتّب مهامكما اليومية أو ارسم مخططاً سريعاً على السبورة.</p>
+      </div>
+
+      <div class="p-4 border-b border-slate-800 bg-slate-950/50 flex flex-col sm:flex-row gap-2.5">
+        <input id="newTaskInput" type="text" placeholder="أضف مهمة جديدة..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-500" />
+        <select id="newTaskAssignee" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-200">
+          <option value="مشترك">🤝 مشترك</option>
+          <option value="أحمد">👤 أحمد</option>
+          <option value="خالد">👤 خالد</option>
+        </select>
+        <button id="addTaskBtn" type="button" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition">إضافة</button>
+      </div>
+
+      <div class="flex-1 p-4 overflow-y-auto space-y-4">
+        <div id="tasksListContainer" class="space-y-2.5"></div>
+
+        <!-- Clean Whiteboard Card -->
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span class="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-chalkboard-user text-emerald-400"></i>
+              السبورة المشتركة لرسم المخططات
+            </span>
+            <div class="flex items-center gap-2">
+              <button type="button" data-color="#10b981" class="wb-color-btn w-5 h-5 rounded-full bg-emerald-500 ring-2 ring-white"></button>
+              <button type="button" data-color="#6366f1" class="wb-color-btn w-5 h-5 rounded-full bg-indigo-500"></button>
+              <button type="button" data-color="#f59e0b" class="wb-color-btn w-5 h-5 rounded-full bg-amber-500"></button>
+              <button type="button" data-color="#ef4444" class="wb-color-btn w-5 h-5 rounded-full bg-red-500"></button>
+              <button type="button" id="clearWhiteboardBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-lg">مسح</button>
+              <button type="button" id="saveWhiteboardToFilesBtn" class="text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-lg">حفظ في الملفات</button>
+            </div>
+          </div>
+          <div class="w-full h-56 bg-slate-900 rounded-xl overflow-hidden border border-slate-800">
+            <canvas id="officeWhiteboard" class="w-full h-full cursor-crosshair touch-none"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: CHRONOLOGICAL HISTORY LOG -->
+    <section id="tab-history-log" class="workspace-section hidden flex-1 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg">
+      <div class="p-4 border-b border-slate-800">
+        <h2 class="text-base font-bold text-white">سجل التواريخ والنشاط الشامل</h2>
+        <p class="text-xs text-slate-400">كل ملف أو فكرة أو اقتراح أو رسالة صوتية أضيفت للمكتب مرتبة بالتاريخ والوقت.</p>
+      </div>
+      <div id="historyTimelineContainer" class="flex-1 p-4 overflow-y-auto space-y-2.5"></div>
+    </section>
+
+  </main>
+
+  <!-- Floating Quick Button to Jump to WhatsApp Chat Anytime -->
+  <button id="floatingQuickChatBtn" type="button" class="fixed bottom-5 left-5 z-20 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-xl flex items-center gap-2 text-xs sm:text-sm font-bold transition">
+    <i class="fa-brands fa-whatsapp text-lg"></i>
+    <span>المحادثة الخاصة</span>
+  </button>
+
+  <!-- Expanded Screen / Video Preview Modal -->
+  <div id="expandedScreenModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl">
+      <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-desktop text-emerald-400"></i>
+          <span>وضع شاشة المكتب المكبرة</span>
+        </h3>
+        <button id="closeExpandedScreenBtn" type="button" class="text-slate-400 hover:text-white text-sm px-2 py-1 rounded">
+          <i class="fa-solid fa-xmark"></i> إغلاق
+        </button>
+      </div>
+      <div class="p-4 bg-slate-950 flex flex-col items-center justify-center min-h-[380px]">
+        <canvas id="expandedModalCanvas" width="800" height="420" class="w-full max-h-[420px] rounded-xl border border-slate-800"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Preview Modal -->
+  <div id="imageLightboxModal" class="fixed inset-0 bg-black/85 z-50 hidden items-center justify-center p-4">
+    <div class="relative max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-2xl p-3">
+      <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+        <span id="lightboxCaption" class="text-xs font-bold text-white">معاينة المرفق</span>
+        <button id="closeLightboxBtn" type="button" class="text-slate-400 hover:text-white text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <img id="lightboxImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Preview" class="max-h-[70vh] w-auto mx-auto rounded-lg object-contain" />
+    </div>
+  </div>
+
+  <!-- Settings & Room Privacy Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-user-shield text-emerald-400"></i>
+          <span>إعدادات المكتب الخاص (لشخصين فقط)</span>
+        </h3>
+        <button id="closeSettingsModalBtn" type="button" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">اسم المشروع / المكتب:</label>
+          <input id="settingProjectTitle" type="text" value="مكتبنا الافتراضي الخاص" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">اسمك (الطرف الأول):</label>
+            <input id="settingMyName" type="text" value="أحمد" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" />
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">اسم صاحبك (الطرف الثاني):</label>
+            <input id="settingPartnerName" type="text" value="خالد" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">رمز الغرفة السري المشترك (اكتبوه نفسه في الجهازين):</label>
+          <input id="settingRoomCode" type="text" value="DUO-8842" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-emerald-400 font-mono" />
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">من يستخدم هذا الجهاز الآن؟ (لتحديد طرف الاتصال):</label>
+          <select id="settingDeviceRole" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            <option value="me">الطرف الأول (أنا - منشئ الغرفة)</option>
+            <option value="partner">الطرف الثاني (صاحبي - المنضم للغرفة)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">رابط قاعدة بيانات سحابية (Firebase URL اختياري للحفظ الدائم 24/7):</label>
+          <input id="settingCloudUrl" type="url" placeholder="https://your-project-default-rtdb.firebaseio.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 font-mono text-[11px]" />
+        </div>
+        <div class="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+          <button id="exportBackupBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3 py-1.5 rounded-xl text-[11px] font-semibold">
+            <i class="fa-solid fa-download ml-1"></i>تنزيل نسخة احتياطية شاملة
+          </button>
+          <label for="importBackupInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 px-3 py-1.5 rounded-xl text-[11px] font-semibold">
+            <i class="fa-solid fa-upload ml-1"></i>استرجاع نسخة احتياطية
+          </label>
+          <input id="importBackupInput" type="file" accept=".json" class="hidden" />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="saveSettingsBtn" type="button" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+          حفظ وتحديث المكتب
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 border border-emerald-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold items-center gap-2">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toastMessage">تم الحفظ بنجاح</span>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. STATE & REAL-TIME SYNC (BroadcastChannel + Safe Storage)
+    // ==========================================
+    const STORAGE_KEY = 'duo_private_office_state_v1';
+    let syncChannel = null;
+    try {
+      if ('BroadcastChannel' in window) {
+        syncChannel = new BroadcastChannel('duo_office_live_sync');
+      }
+    } catch (e) {}
+
+    function formatArabicTimestamp(dateObj = new Date()) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      let hours = dateObj.getHours();
+      const mins = String(dateObj.getMinutes()).padStart(2, '0');
+      const period = hours >= 12 ? 'م' : 'ص';
+      hours = hours % 12 || 12;
+      return `${y}/${m}/${d} • ${hours}:${mins} ${period}`;
+    }
+
+    const defaultState = {
+      projectTitle: 'مكتبنا الافتراضي الخاص',
+      roomCode: 'DUO-8842',
+      myName: 'أحمد',
+      partnerName: 'خالد',
+      activeUser: 'me', // 'me' or 'partner'
+      partnerOnline: true,
+      partnerStreamMode: 'audio', // 'audio' | 'camera' | 'screen'
+      masterDocHtml: `<h1>خطة إطلاق مشروعنا المشترك 🚀</h1>
+<p>مرحباً بك في <strong>الملف الرئيسي المشترك</strong>. أي تعديل يُكتب هنا يتغير ويُحفظ فوراً عند الطرفين مع توثيق وقت التعديل.</p>
+<h2>الأهداف الأساسية للأسبوع الحالي:</h2>
+<ul>
+  <li>إنجاز دراسة السوق ورفع ملفات الأبحاث في قسم الملفات.</li>
+  <li>مراجعة الأفكار الإبداعية واختيار 3 ميزات أساسية للنسخة الأولى.</li>
+  <li>اعتماد الاقتراحات التقنية وتوزيع المهام بين أحمد وخالد.</li>
+</ul>
+<blockquote>ملاحظة مشتركة: نلتقي يومياً الساعة 8 مساءً عبر البث الصوتي والمرئي لمراجعة التقدم.</blockquote>`,
+      masterDocLastEdited: '2026/10/27 • 02:30 م بواسطة أحمد',
+      docSnapshots: [
+        { id: 'snap-1', author: 'أحمد', timestamp: '2026/10/27 • 01:15 م', summary: 'تأسيس هيكل الخطة الأولية' },
+        { id: 'snap-2', author: 'خالد', timestamp: '2026/10/27 • 02:30 م', summary: 'إضافة أهداف الأسبوع والملاحظات' }
+      ],
+      files: [
+        {
+          id: 'file-1',
+          title: 'دراسة تحليل المنافسين والسوق المستهدف.pdf',
+          category: 'بحث ودراسة',
+          notes: 'تحليل شامل لأهم 5 منافسين مع نقاط القوة والضعف والفرص المتاحة لنا.',
+          author: 'خالد',
+          timestamp: '2026/10/26 • 09:40 م',
+          fileSize: '2.4 MB',
+          dataUrl: null
+        },
+        {
+          id: 'file-2',
+          title: 'مخطط الهوية البصرية وواجهات المستخدم (UI Kit)',
+          category: 'تصميم / صورة',
+          notes: 'الألوان المعتمدة والخطوط وتجربة المستخدم المقترحة للتطبيق.',
+          author: 'أحمد',
+          timestamp: '2026/10/26 • 11:15 م',
+          fileSize: '4.1 MB',
+          dataUrl: null
+        },
+        {
+          id: 'file-3',
+          title: 'جدول التكاليف والميزانية التقديرية للمشروع.xlsx',
+          category: 'ملف مشروع',
+          notes: 'تقدير تكاليف الاستضافة والتسويق للأشهر الستة الأولى.',
+          author: 'أحمد',
+          timestamp: '2026/10/27 • 10:20 ص',
+          fileSize: '850 KB',
+          dataUrl: null
+        },
+        {
+          id: 'file-4',
+          title: 'ورقة بحثية: تقنيات المزامنة اللحظية وتقليل الاستجابة',
+          category: 'مرجع / رابط',
+          notes: 'مرجع تقني مهم لبناء البنية التحتية للمشروع بأعلى كفاءة.',
+          author: 'خالد',
+          timestamp: '2026/10/27 • 01:05 م',
+          fileSize: 'مرجع موثق',
+          dataUrl: null
+        }
+      ],
+      ideas: [
+        {
+          id: 'idea-1',
+          title: 'إضافة مساعد ذكي يلخص اجتماعاتنا الصوتية تلقائياً',
+          tag: 'ابتكار تقني',
+          desc: 'بعد كل مكالمة بيننا، يقوم النظام بتحويل النقاط المهمة إلى مهام مباشرة.',
+          author: 'أحمد',
+          timestamp: '2026/10/26 • 08:15 م',
+          likes: 2,
+          status: 'معتمدة'
+        },
+        {
+          id: 'idea-2',
+          title: 'إطلاق نسخة تجريبية مغلقة لأول 50 مستخدم فقط',
+          tag: 'تسويق ونمو',
+          desc: 'نمنحهم دعوات حصرية لجمع ملاحظاتهم الحقيقية قبل الإطلاق العام.',
+          author: 'خالد',
+          timestamp: '2026/10/27 • 11:30 ص',
+          likes: 2,
+          status: 'قيد النقاش'
+        },
+        {
+          id: 'idea-3',
+          title: 'نظام مكافآت ونقاط للمستخدمين النشطين منذ اليوم الأول',
+          tag: 'ميزة جديدة',
+          desc: 'زيادة ارتباط المستخدمين بالمنصة من خلال شارات التميز.',
+          author: 'أحمد',
+          timestamp: '2026/10/27 • 01:50 م',
+          likes: 1,
+          status: 'جديدة'
+        }
+      ],
+      suggestions: [
+        {
+          id: 'sug-1',
+          title: 'اعتماد تقسيم العمل بنظام Sprints كل أسبوعين',
+          priority: 'أولوية عالية',
+          reason: 'يساعدنا على قياس الإنجاز بدقة وعدم تشتت المهام بيننا.',
+          author: 'خالد',
+          timestamp: '2026/10/26 • 10:00 م',
+          approved: true
+        },
+        {
+          id: 'sug-2',
+          title: 'تخصيص أول 15 دقيقة يومياً لمراجعة الملف الرئيسي معاً',
+          priority: 'أولوية متوسطة',
+          reason: 'لتوحيد الرؤية والتأكد من تحديث كافة الملفات والأبحاث.',
+          author: 'أحمد',
+          timestamp: '2026/10/27 • 12:10 م',
+          approved: true
+        },
+        {
+          id: 'sug-3',
+          title: 'إنشاء نسخة احتياطية أسبوعية لكافة أبحاث وملفات المشروع',
+          priority: 'أولوية عالية',
+          reason: 'حماية كاملة لبيانات المشروع المشترك.',
+          author: 'خالد',
+          timestamp: '2026/10/27 • 02:00 م',
+          approved: false
+        }
+      ],
+      tasks: [
+        { id: 'task-1', text: 'مراجعة التصميم النهائي لواجهة المستخدم', assignee: 'أحمد', done: true, timestamp: '2026/10/26 • 07:30 م' },
+        { id: 'task-2', text: 'إعداد قاعدة البيانات وتوثيق الـ API', assignee: 'خالد', done: false, timestamp: '2026/10/27 • 09:15 ص' },
+        { id: 'task-3', text: 'كتابة محتوى الصفحة التعريفية للمشروع في الملف الرئيسي', assignee: 'مشترك', done: false, timestamp: '2026/10/27 • 11:45 ص' },
+        { id: 'task-4', text: 'اختبار مشاركة الشاشة والصوت قبل اجتماع الغد', assignee: 'مشترك', done: true, timestamp: '2026/10/27 • 02:15 م' }
+      ],
+      historyLog: [
+        { id: 'h-1', type: 'ملف/بحث', title: 'ورقة بحثية: تقنيات المزامنة اللحظية وتقليل الاستجابة', author: 'خالد', timestamp: '2026/10/27 • 01:05 م' },
+        { id: 'h-2', type: 'فكرة', title: 'نظام مكافآت ونقاط للمستخدمين النشطين منذ اليوم الأول', author: 'أحمد', timestamp: '2026/10/27 • 01:50 م' },
+        { id: 'h-3', type: 'اقتراح', title: 'إنشاء نسخة احتياطية أسبوعية لكافة أبحاث وملفات المشروع', author: 'خالد', timestamp: '2026/10/27 • 02:00 م' },
+        { id: 'h-4', type: 'ملف رئيسي', title: 'تحديث أهداف الأسبوع في الملف الرئيسي المشترك', author: 'أحمد', timestamp: '2026/10/27 • 02:30 م' }
+      ],
+      chatMessages: [
+        {
+          id: 'msg-1',
+          sender: 'partner',
+          authorName: 'خالد',
+          type: 'text',
+          text: 'هلا أبو حميد! دخلت المكتب الآن ورفعت لك دراسة المنافسين في قسم الملفات والأبحاث 📁',
+          timestamp: '02:10 م'
+        },
+        {
+          id: 'msg-2',
+          sender: 'me',
+          authorName: 'أحمد',
+          type: 'text',
+          text: 'يا هلا خالد! عشت، شفتها وتاريخ إضافتها واضح. أنا بعد حدثت الملف الرئيسي وحطيت أهداف هالأسبوع.',
+          timestamp: '02:12 م'
+        },
+        {
+          id: 'msg-3',
+          sender: 'partner',
+          authorName: 'خالد',
+          type: 'voice',
+          duration: '0:08',
+          timestamp: '02:14 م',
+          audioNoteText: 'تسجيل صوتي: شرح سريع عن فكرة الإطلاق التجريبي'
+        }
+      ]
+    };
+
+    let state = JSON.parse(JSON.stringify(defaultState));
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        state = Object.assign({}, defaultState, parsed);
+      }
+    } catch (e) {}
+
+    let peerInstance = null;
+    let peerConn = null;
+    let activeMediaCall = null;
+    state.masterDocUpdatedAt = state.masterDocUpdatedAt || Date.now();
+    state.cloudDbUrl = state.cloudDbUrl || '';
+
+    // Smart Union Merge by ID so NO item added by either partner is EVER lost!
+    function mergeArraysById(localArr = [], remoteArr = [], sortDesc = true) {
+      const map = new Map();
+      remoteArr.forEach(item => { if (item && item.id) map.set(item.id, item); });
+      localArr.forEach(item => {
+        if (item && item.id) {
+          if (map.has(item.id)) {
+            map.set(item.id, Object.assign({}, map.get(item.id), item));
+          } else {
+            map.set(item.id, item);
+          }
+        }
+      });
+      const merged = Array.from(map.values());
+      return merged;
+    }
+
+    function mergeIncomingState(remoteState) {
+      if (!remoteState) return;
+      state.projectTitle = remoteState.projectTitle || state.projectTitle;
+      state.myName = remoteState.myName || state.myName;
+      state.partnerName = remoteState.partnerName || state.partnerName;
+
+      // Master Doc conflict-free check
+      const remoteDocTime = remoteState.masterDocUpdatedAt || 0;
+      const localDocTime = state.masterDocUpdatedAt || 0;
+      if (remoteDocTime >= localDocTime && remoteState.masterDocHtml) {
+        state.masterDocHtml = remoteState.masterDocHtml;
+        state.masterDocLastEdited = remoteState.masterDocLastEdited || state.masterDocLastEdited;
+        state.masterDocUpdatedAt = remoteDocTime;
+      }
+
+      state.docSnapshots = mergeArraysById(state.docSnapshots, remoteState.docSnapshots);
+      state.files = mergeArraysById(state.files, remoteState.files);
+      state.ideas = mergeArraysById(state.ideas, remoteState.ideas);
+      state.suggestions = mergeArraysById(state.suggestions, remoteState.suggestions);
+      state.tasks = mergeArraysById(state.tasks, remoteState.tasks);
+      state.historyLog = mergeArraysById(state.historyLog, remoteState.historyLog);
+      state.chatMessages = mergeArraysById(remoteState.chatMessages, state.chatMessages);
+      state.partnerOnline = true;
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+      renderAll(true);
+    }
+
+    async function pushToCloudDb() {
+      if (!state.cloudDbUrl) return;
+      try {
+        const cleanUrl = state.cloudDbUrl.replace(/\/+$/, '');
+        const roomKey = encodeURIComponent(state.roomCode || 'DUO-8842');
+        const cloudEndpoint = cleanUrl + "/rooms/" + roomKey + ".json";
+        await window.fetch(cloudEndpoint, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(state)
+        });
+      } catch (e) {}
+    }
+
+    async function pullFromCloudDb() {
+      if (!state.cloudDbUrl) return;
+      try {
+        const cleanUrl = state.cloudDbUrl.replace(/\/+$/, '');
+        const roomKey = encodeURIComponent(state.roomCode || 'DUO-8842');
+        const cloudEndpoint = cleanUrl + "/rooms/" + roomKey + ".json";
+        const res = await window.fetch(cloudEndpoint);
+        if (res.ok) {
+          const data = await res.json();
+          if (data) mergeIncomingState(data);
+        }
+      } catch (e) {}
+    }
+
+    function saveAndBroadcast(skipDomUpdate = false) {
+      state.masterDocUpdatedAt = Date.now();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+      if (syncChannel) {
+        try {
+          syncChannel.postMessage({ type: 'STATE_SYNC', state });
+        } catch (e) {}
+      }
+      if (peerConn && peerConn.open) {
+        try {
+          peerConn.send({ type: 'STATE_MERGE', state });
+        } catch (e) {}
+      }
+      pushToCloudDb();
+      if (!skipDomUpdate) {
+        renderAll();
+      }
+    }
+
+    if (syncChannel) {
+      syncChannel.onmessage = (ev) => {
+        if (ev.data && ev.data.type === 'STATE_SYNC') {
+          state = ev.data.state;
+          renderAll(true);
+        }
+      };
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBanner');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2800);
+    }
+
+    function getCurrentActorName() {
+      return state.activeUser === 'me' ? state.myName : state.partnerName;
+    }
+
+    function addHistoryEntry(type, title, authorName) {
+      const entry = {
+        id: 'h-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        type,
+        title,
+        author: authorName || getCurrentActorName(),
+        timestamp: formatArabicTimestamp()
+      };
+      state.historyLog.unshift(entry);
+    }
+
+    // ==========================================
+    // 2. AUDIO / VIDEO / SCREEN SHARE ENGINE & DRAWERS
+    // ==========================================
+    let localStream = null;
+    let isMicOn = true;
+    let isCamOn = false;
+    let isScreenSharing = false;
+    let isDeafened = false;
+    let callSeconds = 0;
+    let simScreenAnimId = null;
+    let partnerCanvasAnimId = null;
+
+    // Toggle Video Studio Drawer & Extra Tools Bar
+    const videoDrawer = document.getElementById('videoStudioDrawer');
+    document.getElementById('toggleVideoDrawerBtn').addEventListener('click', () => {
+      videoDrawer.classList.toggle('hidden');
+    });
+    document.getElementById('closeVideoDrawerBtn').addEventListener('click', () => {
+      videoDrawer.classList.add('hidden');
+    });
+    document.getElementById('toggleExtraToolsBtn').addEventListener('click', () => {
+      const bar = document.getElementById('extraToolsBar');
+      bar.classList.toggle('hidden');
+      bar.classList.toggle('flex');
+    });
+
+    // Call Timer
+    setInterval(() => {
+      callSeconds++;
+      const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+      const s = String(callSeconds % 60).padStart(2, '0');
+      const badge = document.getElementById('callTimerBadge');
+      if (badge) badge.textContent = `${m}:${s}`;
+    }, 1000);
+
+    function updateMediaUI() {
+      const micBtn = document.getElementById('toggleMicBtn');
+      const micIcon = document.getElementById('micBtnIcon');
+      const micLabel = document.getElementById('micBtnLabel');
+      const localWaves = document.getElementById('localAudioWaves');
+      const localMicOverlay = document.getElementById('localMicOverlayIcon');
+
+      if (isMicOn) {
+        micBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-600/30 transition text-xs font-semibold';
+        micIcon.className = 'fa-solid fa-microphone text-xs';
+        micLabel.textContent = 'المايك';
+        localWaves.classList.remove('hidden');
+        localMicOverlay.className = 'fa-solid fa-microphone text-emerald-400';
+      } else {
+        micBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-300 hover:bg-rose-600/30 transition text-xs font-semibold';
+        micIcon.className = 'fa-solid fa-microphone-slash text-xs';
+        micLabel.textContent = 'مكتوم';
+        localWaves.classList.add('hidden');
+        localMicOverlay.className = 'fa-solid fa-microphone-slash text-rose-400';
+      }
+
+      const camBtn = document.getElementById('toggleCamBtn');
+      const camIcon = document.getElementById('camBtnIcon');
+      const camLabel = document.getElementById('camBtnLabel');
+      if (isCamOn) {
+        camBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-600/30 transition text-xs font-semibold';
+        camIcon.className = 'fa-solid fa-video text-xs';
+        camLabel.textContent = 'الكاميرا تعمل';
+      } else {
+        camBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold';
+        camIcon.className = 'fa-solid fa-video-slash text-xs';
+        camLabel.textContent = 'الكاميرا';
+      }
+
+      const screenBtn = document.getElementById('toggleScreenBtn');
+      const screenLabel = document.getElementById('screenBtnLabel');
+      if (isScreenSharing) {
+        screenBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-indigo-600/25 border border-indigo-500/50 text-indigo-300 hover:bg-indigo-600/35 transition text-xs font-semibold';
+        screenLabel.textContent = 'يشارك الشاشة';
+      } else {
+        screenBtn.className = 'flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold';
+        screenLabel.textContent = 'الشاشة';
+      }
+
+      const deafenBtn = document.getElementById('toggleDeafenBtn');
+      const deafenIcon = document.getElementById('deafenBtnIcon');
+      const deafenLabel = document.getElementById('deafenBtnLabel');
+      if (isDeafened) {
+        deafenBtn.className = 'flex items-center gap-1.5 py-1.5 px-2 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-300 transition text-xs font-semibold';
+        deafenIcon.className = 'fa-solid fa-volume-xmark text-xs';
+        deafenLabel.textContent = 'الصوت مكتوم';
+      } else {
+        deafenBtn.className = 'flex items-center gap-1.5 py-1.5 px-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition text-xs font-semibold';
+        deafenIcon.className = 'fa-solid fa-headphones text-xs';
+        deafenLabel.textContent = 'الصوت مسموع';
+      }
+
+      const statusBadge = document.getElementById('localMediaStatusBadge');
+      const camText = isScreenSharing ? 'مشاركة الشاشة نشطة' : (isCamOn ? 'الكاميرا مفعلة' : 'الكاميرا مغلقة');
+      const micText = isMicOn ? 'المايك مفعل' : 'المايك مكتوم';
+      statusBadge.textContent = `${camText} • ${micText}`;
+    }
+
+    function startSimulatedLocalPreview(mode) {
+      videoDrawer.classList.remove('hidden');
+      const canvas = document.getElementById('simulatedScreenCanvas');
+      const video = document.getElementById('localVideo');
+      const offView = document.getElementById('localCameraOffView');
+      video.classList.add('hidden');
+      offView.classList.add('hidden');
+      canvas.classList.remove('hidden');
+      canvas.width = 360;
+      canvas.height = 202;
+      const ctx = canvas.getContext('2d');
+      cancelAnimationFrame(simScreenAnimId);
+      let tick = 0;
+      function draw() {
+        tick += 0.04;
+        ctx.fillStyle = mode === 'screen' ? '#0f172a' : '#064e3b';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (mode === 'screen') {
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(16, 16, 328, 28);
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 11px Cairo, sans-serif';
+          ctx.fillText('🖥️ مشاركة شاشة حية — ' + state.projectTitle, 280, 34);
+
+          ctx.fillStyle = '#334155';
+          ctx.fillRect(16, 52, 210, 130);
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(234, 52, 110, 130);
+
+          ctx.fillStyle = '#38bdf8';
+          const barW = 120 + Math.sin(tick) * 40;
+          ctx.fillRect(30, 75, barW, 10);
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillRect(30, 95, 160, 8);
+          ctx.fillRect(30, 112, 140, 8);
+          ctx.fillRect(30, 130, 175, 8);
+
+          const cx = 140 + Math.cos(tick * 1.3) * 70;
+          const cy = 110 + Math.sin(tick * 1.7) * 40;
+          ctx.fillStyle = '#f43f5e';
+          ctx.beginPath();
+          ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          const grad = ctx.createRadialGradient(180, 100, 10, 180, 100, 120);
+          grad.addColorStop(0, '#047857');
+          grad.addColorStop(1, '#0f172a');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.beginPath();
+          ctx.arc(180, 90, 34 + Math.sin(tick * 2) * 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#10b981';
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 20px Cairo, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(state.myName.charAt(0), 180, 97);
+
+          ctx.font = '12px Cairo, sans-serif';
+          ctx.fillStyle = '#a7f3d0';
+          ctx.fillText('بث الكاميرا المباشر (' + state.myName + ')', 180, 155);
+        }
+        simScreenAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function stopLocalVisualStreams() {
+      cancelAnimationFrame(simScreenAnimId);
+      if (localStream) {
+        localStream.getTracks().forEach(t => t.stop());
+        localStream = null;
+      }
+      document.getElementById('localVideo').classList.add('hidden');
+      document.getElementById('simulatedScreenCanvas').classList.add('hidden');
+      document.getElementById('localCameraOffView').classList.remove('hidden');
+    }
+
+    document.getElementById('toggleMicBtn').addEventListener('click', () => {
+      isMicOn = !isMicOn;
+      if (localStream) {
+        localStream.getAudioTracks().forEach(t => { t.enabled = isMicOn; });
+      }
+      updateMediaUI();
+      showToast(isMicOn ? 'تم تشغيل المايكروفون 🎙️' : 'تم كتم المايكروفون 🔇');
+    });
+
+    document.getElementById('toggleCamBtn').addEventListener('click', async () => {
+      if (isCamOn) {
+        isCamOn = false;
+        stopLocalVisualStreams();
+        updateMediaUI();
+        showToast('تم إغلاق الكاميرا');
+        return;
+      }
+      isScreenSharing = false;
+      isCamOn = true;
+      videoDrawer.classList.remove('hidden');
+      updateMediaUI();
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: isMicOn });
+          const video = document.getElementById('localVideo');
+          video.srcObject = localStream;
+          video.classList.remove('hidden');
+          document.getElementById('simulatedScreenCanvas').classList.add('hidden');
+          document.getElementById('localCameraOffView').classList.add('hidden');
+          showToast('تم تشغيل الكاميرا بنجاح 📹');
+        } else {
+          startSimulatedLocalPreview('camera');
+          showToast('تم تشغيل بث الكاميرا التفاعلي 📹');
+        }
+      } catch (err) {
+        startSimulatedLocalPreview('camera');
+        showToast('تم تفعيل معاينة الكاميرا المباشرة 📹');
+      }
+    });
+
+    document.getElementById('toggleScreenBtn').addEventListener('click', async () => {
+      if (isScreenSharing) {
+        isScreenSharing = false;
+        stopLocalVisualStreams();
+        updateMediaUI();
+        showToast('تم إيقاف مشاركة الشاشة');
+        return;
+      }
+      isCamOn = false;
+      isScreenSharing = true;
+      videoDrawer.classList.remove('hidden');
+      updateMediaUI();
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+          localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+          const video = document.getElementById('localVideo');
+          video.srcObject = localStream;
+          video.classList.remove('hidden');
+          document.getElementById('simulatedScreenCanvas').classList.add('hidden');
+          document.getElementById('localCameraOffView').classList.add('hidden');
+          localStream.getVideoTracks()[0].onended = () => {
+            isScreenSharing = false;
+            stopLocalVisualStreams();
+            updateMediaUI();
+          };
+          showToast('بدأت مشاركة الشاشة مع صاحبك 🖥️');
+        } else {
+          startSimulatedLocalPreview('screen');
+          showToast('بدأت مشاركة شاشة المكتب مع صاحبك 🖥️');
+        }
+      } catch (err) {
+        startSimulatedLocalPreview('screen');
+        showToast('بدأت مشاركة شاشة المكتب التفاعلية مع صاحبك 🖥️');
+      }
+    });
+
+    document.getElementById('toggleDeafenBtn').addEventListener('click', () => {
+      isDeafened = !isDeafened;
+      updateMediaUI();
+      showToast(isDeafened ? 'تم كتم صوت المكتب مؤقتاً' : 'تم تفعيل الاستماع لصوت صاحبك 🎧');
+    });
+
+    document.getElementById('togglePartnerCamSimBtn').addEventListener('click', () => {
+      const modes = ['audio', 'camera', 'screen'];
+      const nextIdx = (modes.indexOf(state.partnerStreamMode) + 1) % modes.length;
+      state.partnerStreamMode = modes[nextIdx];
+      renderPartnerStream();
+      saveAndBroadcast();
+    });
+
+    function renderPartnerStream() {
+      const pCanvas = document.getElementById('partnerVideoCanvas');
+      const pOffView = document.getElementById('partnerCameraOffView');
+      const pStateText = document.getElementById('partnerStreamStateText');
+      cancelAnimationFrame(partnerCanvasAnimId);
+
+      if (!state.partnerOnline) {
+        pCanvas.classList.add('hidden');
+        pOffView.classList.remove('hidden');
+        pStateText.textContent = 'غير متصل حالياً';
+        pStateText.className = 'text-[11px] text-slate-400';
+        document.getElementById('partnerAudioWaves').classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('partnerAudioWaves').classList.remove('hidden');
+
+      if (state.partnerStreamMode === 'audio') {
+        pCanvas.classList.add('hidden');
+        pOffView.classList.remove('hidden');
+        pStateText.textContent = 'متصل صوتياً • المايك مفعل';
+        pStateText.className = 'text-[11px] text-emerald-400';
+      } else {
+        pOffView.classList.add('hidden');
+        pCanvas.classList.remove('hidden');
+        const ctx = pCanvas.getContext('2d');
+        let t = 0;
+        function animatePartner() {
+          t += 0.04;
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(0, 0, pCanvas.width, pCanvas.height);
+          if (state.partnerStreamMode === 'camera') {
+            ctx.beginPath();
+            ctx.arc(180, 88, 32 + Math.sin(t * 2.2) * 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#4f46e5';
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 18px Cairo, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(state.partnerName.charAt(0), 180, 95);
+            ctx.fillStyle = '#c7d2fe';
+            ctx.font = '11px Cairo, sans-serif';
+            ctx.fillText('كاميرا ' + state.partnerName + ' المباشرة', 180, 152);
+          } else {
+            ctx.fillStyle = '#1e1b4b';
+            ctx.fillRect(14, 14, 332, 174);
+            ctx.fillStyle = '#818cf8';
+            ctx.font = 'bold 11px Cairo, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('شاشة ' + state.partnerName + ' المشتركة (مخطط المشروع)', 335, 34);
+            ctx.fillStyle = '#312e81';
+            ctx.fillRect(24, 46, 150, 120);
+            ctx.fillRect(186, 46, 148, 120);
+            ctx.fillStyle = '#34d399';
+            ctx.fillRect(36, 65, 90 + Math.sin(t) * 25, 10);
+            ctx.fillStyle = '#a5b4fc';
+            ctx.fillRect(36, 85, 110, 8);
+            ctx.fillRect(198, 65, 120, 8);
+            ctx.fillRect(198, 85, 95, 8);
+          }
+          partnerCanvasAnimId = requestAnimationFrame(animatePartner);
+        }
+        animatePartner();
+      }
+    }
+
+    document.getElementById('expandScreenModalBtn').addEventListener('click', () => {
+      const modal = document.getElementById('expandedScreenModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      const c = document.getElementById('expandedModalCanvas');
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 20px Cairo, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('شاشة العرض المشتركة — ' + state.projectTitle, c.width / 2, 60);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '14px Cairo, sans-serif';
+      ctx.fillText('أنت وصاحبك (' + state.partnerName + ') في وضع المكتب المرئي المباشر', c.width / 2, 95);
+
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(50, 130, 330, 240);
+      ctx.fillRect(420, 130, 330, 240);
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 15px Cairo, sans-serif';
+      ctx.fillText('شاشة ' + state.myName + ' (أنت)', 215, 165);
+      ctx.fillStyle = '#818cf8';
+      ctx.fillText('شاشة ' + state.partnerName + ' (صاحبك)', 585, 165);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '13px Cairo, sans-serif';
+      ctx.fillText('• الملف الرئيسي مفتوح ومتزامن لحظياً', 215, 210);
+      ctx.fillText('• عدد الملفات والأبحاث: ' + state.files.length, 215, 240);
+      ctx.fillText('• البث الصوتي والمرئي: متصل ومشفر', 585, 210);
+      ctx.fillText('• آخر تحديث: ' + state.masterDocLastEdited, 585, 240);
+    });
+
+    document.getElementById('closeExpandedScreenBtn').addEventListener('click', () => {
+      const modal = document.getElementById('expandedScreenModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // ==========================================
+    // 3. POMODORO & AMBIENT OFFICE SOUND
+    // ==========================================
+    let pomoSeconds = 25 * 60;
+    let pomoRunning = false;
+    let pomoInterval = null;
+
+    document.getElementById('pomodoroToggleBtn').addEventListener('click', () => {
+      pomoRunning = !pomoRunning;
+      const icon = document.getElementById('pomodoroIcon');
+      if (pomoRunning) {
+        icon.className = 'fa-solid fa-pause';
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            const m = String(Math.floor(pomoSeconds / 60)).padStart(2, '0');
+            const s = String(pomoSeconds % 60).padStart(2, '0');
+            document.getElementById('pomodoroDisplay').textContent = `${m}:${s}`;
+          } else {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            icon.className = 'fa-solid fa-play';
+            showToast('انتهت جلسة التركيز المشتركة! خذوا استراحة 5 دقائق ☕');
+          }
+        }, 1000);
+      } else {
+        icon.className = 'fa-solid fa-play';
+        clearInterval(pomoInterval);
+      }
+    });
+
+    document.getElementById('pomodoroResetBtn').addEventListener('click', () => {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = 25 * 60;
+      document.getElementById('pomodoroDisplay').textContent = '25:00';
+      document.getElementById('pomodoroIcon').className = 'fa-solid fa-play';
+    });
+
+    let ambientAudioCtx = null;
+    let ambientNoiseNode = null;
+    let isAmbientPlaying = false;
+
+    document.getElementById('ambientSoundBtn').addEventListener('click', () => {
+      const btn = document.getElementById('ambientSoundBtn');
+      if (isAmbientPlaying) {
+        if (ambientNoiseNode) {
+          try { ambientNoiseNode.disconnect(); } catch (e) {}
+        }
+        isAmbientPlaying = false;
+        btn.innerHTML = 'صوت هدوء المكتب <i class="fa-solid fa-volume-low mr-1"></i>';
+        btn.className = 'px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition';
+        return;
+      }
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!ambientAudioCtx) ambientAudioCtx = new AudioContext();
+        if (ambientAudioCtx.state === 'suspended') ambientAudioCtx.resume();
+
+        const bufferSize = 2 * ambientAudioCtx.sampleRate;
+        const noiseBuffer = ambientAudioCtx.createBuffer(1, bufferSize, ambientAudioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 0.12;
+        }
+        ambientNoiseNode = ambientAudioCtx.createBufferSource();
+        ambientNoiseNode.buffer = noiseBuffer;
+        ambientNoiseNode.loop = true;
+        ambientNoiseNode.connect(ambientAudioCtx.destination);
+        ambientNoiseNode.start(0);
+        isAmbientPlaying = true;
+        btn.innerHTML = 'إيقاف الصوت <i class="fa-solid fa-volume-high mr-1"></i>';
+        btn.className = 'px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-300 border border-emerald-500/40 text-xs transition';
+        showToast('تم تشغيل أجواء المكتب الهادئة للتركيز 🌧️');
+      } catch (e) {
+        showToast('تعذر تشغيل الصوت في المتصفح الحالي');
+      }
+    });
+
+    // ==========================================
+    // 4. NAVIGATION TABS (Single Focused View)
+    // ==========================================
+    const tabBtns = document.querySelectorAll('.workspace-tab-btn');
+    const sections = document.querySelectorAll('.workspace-section');
+    const floatingChatBtn = document.getElementById('floatingQuickChatBtn');
+
+    function activateTab(target) {
+      tabBtns.forEach(b => {
+        if (b.getAttribute('data-tab') === target) {
+          b.className = 'workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap';
+        } else {
+          b.className = 'workspace-tab-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-300 hover:bg-slate-800 whitespace-nowrap';
+        }
+      });
+
+      sections.forEach(sec => sec.classList.add('hidden'));
+      const activeSec = document.getElementById('tab-' + target);
+      if (activeSec) activeSec.classList.remove('hidden');
+
+      if (target === 'chat-room') {
+        floatingChatBtn.classList.add('hidden');
+        renderChat();
+      } else {
+        floatingChatBtn.classList.remove('hidden');
+      }
+
+      if (target === 'tasks-whiteboard') {
+        setTimeout(resizeWhiteboard, 50);
+      }
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activateTab(btn.getAttribute('data-tab'));
+      });
+    });
+
+    floatingChatBtn.addEventListener('click', () => {
+      activateTab('chat-room');
+    });
+
+    // ==========================================
+    // 5. MASTER COLLABORATIVE DOCUMENT
+    // ==========================================
+    const docEditor = document.getElementById('masterDocEditor');
+
+    docEditor.addEventListener('input', () => {
+      state.masterDocHtml = docEditor.innerHTML;
+      state.masterDocLastEdited = `${formatArabicTimestamp()} بواسطة ${getCurrentActorName()}`;
+      updateDocStats();
+      saveAndBroadcast(true);
+    });
+
+    function updateDocStats() {
+      const text = docEditor.innerText || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      document.getElementById('docWordCount').textContent = `${words} كلمة`;
+      document.getElementById('docLastEditedInfo').textContent = `آخر تعديل: ${state.masterDocLastEdited}`;
+    }
+
+    document.querySelectorAll('.doc-format-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmd = btn.getAttribute('data-cmd');
+        document.execCommand(cmd, false, null);
+        docEditor.focus();
+      });
+    });
+
+    document.getElementById('insertHeadingBtn').addEventListener('click', () => {
+      document.execCommand('formatBlock', false, 'H2');
+      docEditor.focus();
+    });
+
+    document.getElementById('insertChecklistItemBtn').addEventListener('click', () => {
+      const html = `<p>☑️ <strong>بند جديد (${formatArabicTimestamp()}):</strong> اكتب التفاصيل هنا...</p>`;
+      document.execCommand('insertHTML', false, html);
+      docEditor.dispatchEvent(new Event('input'));
+    });
+
+    document.getElementById('insertTimestampInDocBtn').addEventListener('click', () => {
+      const stamp = ` <span style="color:#34d399;font-size:11px;">[${formatArabicTimestamp()} - ${getCurrentActorName()}]</span> `;
+      document.execCommand('insertHTML', false, stamp);
+      docEditor.dispatchEvent(new Event('input'));
+    });
+
+    document.getElementById('saveDocSnapshotBtn').addEventListener('click', () => {
+      const snap = {
+        id: 'snap-' + Date.now(),
+        author: getCurrentActorName(),
+        timestamp: formatArabicTimestamp(),
+        summary: 'نسخة محفوظة من الملف الرئيسي'
+      };
+      state.docSnapshots.unshift(snap);
+      addHistoryEntry('ملف رئيسي', `حفظ نسخة من الملف الرئيسي بواسطة ${snap.author}`, snap.author);
+      saveAndBroadcast();
+      showToast('تم حفظ نسخة مؤرخة من الملف الرئيسي ✅');
+    });
+
+    document.getElementById('simulatePartnerTypingDocBtn').addEventListener('click', () => {
+      const cursorTag = document.getElementById('partnerLiveCursorTag');
+      cursorTag.classList.remove('hidden');
+      setTimeout(() => {
+        const partnerAddition = `<p style="color:#a5b4fc;">✨ <strong>إضافة مباشرة من ${state.partnerName} (${formatArabicTimestamp()}):</strong> قمت بمراجعة النقاط أعلاه وأقترح البدء بتجهيز العرض التقديمي للمستثمرين هذا الأسبوع.</p>`;
+        docEditor.innerHTML += partnerAddition;
+        state.masterDocHtml = docEditor.innerHTML;
+        state.masterDocLastEdited = `${formatArabicTimestamp()} بواسطة ${state.partnerName}`;
+        addHistoryEntry('ملف رئيسي', `تعديل مباشر في الملف الرئيسي`, state.partnerName);
+        cursorTag.classList.add('hidden');
+        saveAndBroadcast();
+        showToast(`قام ${state.partnerName} بالكتابة في الملف الرئيسي الآن ✍️`);
+      }, 1100);
+    });
+
+    // ==========================================
+    // 6. FILES & RESEARCH SECTION
+    // ==========================================
+    let pendingUploadFileData = null;
+    let pendingUploadFileName = '';
+    let pendingUploadFileSize = '';
+
+    document.getElementById('realFileUploadInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      pendingUploadFileName = file.name;
+      pendingUploadFileSize = (file.size / 1024).toFixed(1) + ' KB';
+      document.getElementById('selectedFileNameLabel').textContent = file.name;
+      if (!document.getElementById('fileTitleInput').value.trim()) {
+        document.getElementById('fileTitleInput').value = file.name;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingUploadFileData = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('addFileItemBtn').addEventListener('click', () => {
+      const titleInput = document.getElementById('fileTitleInput');
+      const notesInput = document.getElementById('fileNotesInput');
+      const category = document.getElementById('fileCategorySelect').value;
+      const title = titleInput.value.trim() || pendingUploadFileName;
+
+      if (!title) {
+        showToast('الرجاء كتابة عنوان الملف أو البحث أولاً');
+        return;
+      }
+
+      const newFile = {
+        id: 'file-' + Date.now(),
+        title,
+        category,
+        notes: notesInput.value.trim() || 'تمت إضافته إلى مكتبة المشروع المشتركة.',
+        author: getCurrentActorName(),
+        timestamp: formatArabicTimestamp(),
+        fileSize: pendingUploadFileSize || 'مستند مشروع',
+        dataUrl: pendingUploadFileData
+      };
+
+      state.files.unshift(newFile);
+      addHistoryEntry('ملف/بحث', title, newFile.author);
+
+      titleInput.value = '';
+      notesInput.value = '';
+      pendingUploadFileData = null;
+      pendingUploadFileName = '';
+      pendingUploadFileSize = '';
+      document.getElementById('selectedFileNameLabel').textContent = 'إرفاق ملف من جهازك';
+      document.getElementById('realFileUploadInput').value = '';
+
+      saveAndBroadcast();
+      showToast('تمت إضافة الملف/البحث مع توثيق تاريخ الإضافة 📁');
+    });
+
+    document.getElementById('searchFilesInput').addEventListener('input', () => {
+      renderFiles();
+    });
+
+    function renderFiles() {
+      const container = document.getElementById('filesListContainer');
+      const query = (document.getElementById('searchFilesInput').value || '').trim().toLowerCase();
+      const filtered = state.files.filter(f =>
+        f.title.toLowerCase().includes(query) ||
+        f.notes.toLowerCase().includes(query) ||
+        f.category.toLowerCase().includes(query)
+      );
+
+      document.getElementById('filesCountBadge').textContent = state.files.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-10 text-xs text-slate-500">لا توجد ملفات أو أبحاث مطابقة للبحث.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(f => `
+        <div class="bg-slate-950/80 border border-slate-800/90 hover:border-slate-700 rounded-2xl p-4 transition flex flex-col gap-2.5">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                <i class="fa-solid fa-file-lines text-base"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white">${escapeHtml(f.title)}</h4>
+                <p class="text-xs text-slate-400 mt-1 leading-relaxed">${escapeHtml(f.notes)}</p>
+              </div>
+            </div>
+            <button type="button" data-delete-file="${f.id}" class="text-slate-500 hover:text-rose-400 text-xs p-1.5" title="حذف">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-800/70 text-xs">
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="bg-slate-800 text-amber-300 px-2.5 py-0.5 rounded-lg font-semibold">${escapeHtml(f.category)}</span>
+              <span class="text-slate-400">بواسطة: <strong class="text-slate-200">${escapeHtml(f.author)}</strong></span>
+              <span class="text-slate-500">• ${escapeHtml(f.fileSize)}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="bg-emerald-950/70 text-emerald-300 border border-emerald-700/40 px-2.5 py-1 rounded-lg font-mono text-[11px]">
+                <i class="fa-regular fa-clock ml-1"></i>أُضيف: ${escapeHtml(f.timestamp)}
+              </span>
+              ${f.dataUrl ? `<a href="${f.dataUrl}" download="${escapeHtml(f.title)}" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded-lg text-xs font-semibold">تحميل</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('[data-delete-file]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-delete-file');
+          state.files = state.files.filter(x => x.id !== id);
+          saveAndBroadcast();
+        });
+      });
+    }
+
+    // ==========================================
+    // 7. IDEAS SECTION
+    // ==========================================
+    document.getElementById('addIdeaBtn').addEventListener('click', () => {
+      const titleEl = document.getElementById('ideaTitleInput');
+      const descEl = document.getElementById('ideaDescInput');
+      const tag = document.getElementById('ideaTagSelect').value;
+      const title = titleEl.value.trim();
+
+      if (!title) {
+        showToast('الرجاء كتابة عنوان الفكرة أولاً 💡');
+        return;
+      }
+
+      const idea = {
+        id: 'idea-' + Date.now(),
+        title,
+        tag,
+        desc: descEl.value.trim() || 'فكرة مطروحة للنقاش والتطوير المشترك.',
+        author: getCurrentActorName(),
+        timestamp: formatArabicTimestamp(),
+        likes: 1,
+        status: 'جديدة'
+      };
+
+      state.ideas.unshift(idea);
+      addHistoryEntry('فكرة', title, idea.author);
+      titleEl.value = '';
+      descEl.value = '';
+      saveAndBroadcast();
+      showToast('تمت إضافة الفكرة مع حفظ تاريخ وساعة الإضافة 💡');
+    });
+
+    function renderIdeas() {
+      const container = document.getElementById('ideasListContainer');
+      document.getElementById('ideasCountBadge').textContent = state.ideas.length;
+
+      container.innerHTML = state.ideas.map(item => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-2.5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs bg-yellow-500/15 text-yellow-300 border border-yellow-500/30 px-2.5 py-0.5 rounded-lg font-semibold">${escapeHtml(item.tag)}</span>
+                <span class="text-xs bg-slate-800 text-emerald-400 px-2.5 py-0.5 rounded-lg font-semibold">${escapeHtml(item.status)}</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-2">${escapeHtml(item.title)}</h4>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">${escapeHtml(item.desc)}</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" data-like-idea="${item.id}" class="bg-slate-800 hover:bg-yellow-500/20 text-yellow-400 border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-fire"></i> <span>${item.likes}</span>
+              </button>
+              <button type="button" data-status-idea="${item.id}" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-xl text-xs">
+                تغيير الحالة
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-800/70 text-xs">
+            <span class="text-slate-400">صاحب الفكرة: <strong class="text-slate-200">${escapeHtml(item.author)}</strong></span>
+            <span class="bg-yellow-950/40 text-yellow-300 border border-yellow-700/40 px-2.5 py-1 rounded-lg font-mono text-[11px]">
+              <i class="fa-regular fa-clock ml-1"></i>أُضيفت: ${escapeHtml(item.timestamp)}
+            </span>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('[data-like-idea]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-like-idea');
+          const found = state.ideas.find(x => x.id === id);
+          if (found) {
+            found.likes++;
+            saveAndBroadcast();
+          }
+        });
+      });
+
+      container.querySelectorAll('[data-status-idea]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-status-idea');
+          const found = state.ideas.find(x => x.id === id);
+          if (found) {
+            const order = ['جديدة', 'قيد النقاش', 'معتمدة', 'قيد التنفيذ'];
+            found.status = order[(order.indexOf(found.status) + 1) % order.length];
+            saveAndBroadcast();
+          }
+        });
+      });
+    }
+
+    // ==========================================
+    // 8. SUGGESTIONS SECTION
+    // ==========================================
+    document.getElementById('addSuggestionBtn').addEventListener('click', () => {
+      const titleEl = document.getElementById('suggestionTitleInput');
+      const reasonEl = document.getElementById('suggestionReasonInput');
+      const priority = document.getElementById('suggestionPrioritySelect').value;
+      const title = titleEl.value.trim();
+
+      if (!title) {
+        showToast('الرجاء كتابة عنوان الاقتراح أولاً');
+        return;
+      }
+
+      const sug = {
+        id: 'sug-' + Date.now(),
+        title,
+        priority,
+        reason: reasonEl.value.trim() || 'اقتراح لتطوير العمل المشترك في المكتب.',
+        author: getCurrentActorName(),
+        timestamp: formatArabicTimestamp(),
+        approved: false
+      };
+
+      state.suggestions.unshift(sug);
+      addHistoryEntry('اقتراح', title, sug.author);
+      titleEl.value = '';
+      reasonEl.value = '';
+      saveAndBroadcast();
+      showToast('تمت إضافة الاقتراح مع توثيق تاريخ الإضافة ✨');
+    });
+
+    function renderSuggestions() {
+      const container = document.getElementById('suggestionsListContainer');
+      document.getElementById('suggestionsCountBadge').textContent = state.suggestions.length;
+
+      container.innerHTML = state.suggestions.map(s => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-2.5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs bg-purple-500/15 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-lg font-semibold">${escapeHtml(s.priority)}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-lg font-semibold ${s.approved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">
+                  ${s.approved ? '✅ متفق عليه بين الطرفين' : '⏳ بانتظار موافقة الطرف الثاني'}
+                </span>
+              </div>
+              <h4 class="text-sm font-bold text-white mt-2">${escapeHtml(s.title)}</h4>
+              <p class="text-xs text-slate-400 mt-1">${escapeHtml(s.reason)}</p>
+            </div>
+            <button type="button" data-approve-sug="${s.id}" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 ${s.approved ? 'bg-emerald-600 text-white' : 'bg-slate-800 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30'}">
+              <i class="fa-solid fa-thumbs-up ml-1"></i>${s.approved ? 'معتمد' : 'موافقة'}
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-800/70 text-xs">
+            <span class="text-slate-400">مقدم الاقتراح: <strong class="text-slate-200">${escapeHtml(s.author)}</strong></span>
+            <span class="bg-purple-950/40 text-purple-300 border border-purple-700/40 px-2.5 py-1 rounded-lg font-mono text-[11px]">
+              <i class="fa-regular fa-clock ml-1"></i>أُضيف: ${escapeHtml(s.timestamp)}
+            </span>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('[data-approve-sug]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-approve-sug');
+          const found = state.suggestions.find(x => x.id === id);
+          if (found) {
+            found.approved = !found.approved;
+            saveAndBroadcast();
+          }
+        });
+      });
+    }
+
+    // ==========================================
+    // 9. SHARED TASKS & WHITEBOARD
+    // ==========================================
+    document.getElementById('addTaskBtn').addEventListener('click', () => {
+      const inp = document.getElementById('newTaskInput');
+      const assignee = document.getElementById('newTaskAssignee').value;
+      const text = inp.value.trim();
+      if (!text) return;
+
+      const t = {
+        id: 'task-' + Date.now(),
+        text,
+        assignee,
+        done: false,
+        timestamp: formatArabicTimestamp()
+      };
+      state.tasks.unshift(t);
+      addHistoryEntry('مهمة', text, getCurrentActorName());
+      inp.value = '';
+      saveAndBroadcast();
+      showToast('تمت إضافة المهمة مع تاريخها ✅');
+    });
+
+    function renderTasks() {
+      const container = document.getElementById('tasksListContainer');
+      document.getElementById('tasksCountBadge').textContent = state.tasks.length;
+
+      container.innerHTML = state.tasks.map(t => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between gap-3">
+          <label class="flex items-center gap-3 cursor-pointer flex-1">
+            <input type="checkbox" data-toggle-task="${t.id}" ${t.done ? 'checked' : ''} class="w-4 h-4 accent-emerald-500 rounded cursor-pointer" />
+            <div>
+              <div class="text-sm font-semibold ${t.done ? 'line-through text-slate-500' : 'text-white'}">${escapeHtml(t.text)}</div>
+              <div class="text-xs text-slate-400 flex items-center gap-2 mt-1">
+                <span class="text-cyan-400">المسؤول: ${escapeHtml(t.assignee)}</span>
+                <span>• أُضيفت: ${escapeHtml(t.timestamp)}</span>
+              </div>
+            </div>
+          </label>
+          <button type="button" data-del-task="${t.id}" class="text-slate-500 hover:text-rose-400 text-xs p-1.5">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('[data-toggle-task]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const id = cb.getAttribute('data-toggle-task');
+          const found = state.tasks.find(x => x.id === id);
+          if (found) {
+            found.done = cb.checked;
+            saveAndBroadcast();
+          }
+        });
+      });
+
+      container.querySelectorAll('[data-del-task]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-del-task');
+          state.tasks = state.tasks.filter(x => x.id !== id);
+          saveAndBroadcast();
+        });
+      });
+    }
+
+    const wbCanvas = document.getElementById('officeWhiteboard');
+    const wbCtx = wbCanvas.getContext('2d');
+    let wbDrawing = false;
+    let wbColor = '#10b981';
+
+    function resizeWhiteboard() {
+      const rect = wbCanvas.parentElement.getBoundingClientRect();
+      if (rect.width > 0 && wbCanvas.width !== Math.floor(rect.width)) {
+        wbCanvas.width = Math.floor(rect.width);
+        wbCanvas.height = Math.floor(rect.height);
+        wbCtx.fillStyle = '#0f172a';
+        wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+        wbCtx.font = '12px Cairo, sans-serif';
+        wbCtx.fillStyle = '#64748b';
+        wbCtx.fillText('ارسم هنا بالماوس أو اللمس لشرح أي مخطط لصاحبك...', wbCanvas.width - 260, 28);
+      }
+    }
+
+    function getWbPos(e) {
+      const rect = wbCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    wbCanvas.addEventListener('mousedown', (e) => {
+      wbDrawing = true;
+      const p = getWbPos(e);
+      wbCtx.beginPath();
+      wbCtx.moveTo(p.x, p.y);
+    });
+    wbCanvas.addEventListener('mousemove', (e) => {
+      if (!wbDrawing) return;
+      const p = getWbPos(e);
+      wbCtx.strokeStyle = wbColor;
+      wbCtx.lineWidth = 3;
+      wbCtx.lineCap = 'round';
+      wbCtx.lineTo(p.x, p.y);
+      wbCtx.stroke();
+    });
+    window.addEventListener('mouseup', () => { wbDrawing = false; });
+
+    wbCanvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      wbDrawing = true;
+      const p = getWbPos(e);
+      wbCtx.beginPath();
+      wbCtx.moveTo(p.x, p.y);
+    }, { passive: false });
+    wbCanvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (!wbDrawing) return;
+      const p = getWbPos(e);
+      wbCtx.strokeStyle = wbColor;
+      wbCtx.lineWidth = 3;
+      wbCtx.lineCap = 'round';
+      wbCtx.lineTo(p.x, p.y);
+      wbCtx.stroke();
+    }, { passive: false });
+    wbCanvas.addEventListener('touchend', () => { wbDrawing = false; });
+
+    document.querySelectorAll('.wb-color-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wbColor = btn.getAttribute('data-color');
+        document.querySelectorAll('.wb-color-btn').forEach(b => b.classList.remove('ring-2', 'ring-white'));
+        btn.classList.add('ring-2', 'ring-white');
+      });
+    });
+
+    document.getElementById('clearWhiteboardBtn').addEventListener('click', () => {
+      wbCtx.fillStyle = '#0f172a';
+      wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+    });
+
+    document.getElementById('saveWhiteboardToFilesBtn').addEventListener('click', () => {
+      const dataUrl = wbCanvas.toDataURL('image/png');
+      const newFile = {
+        id: 'file-' + Date.now(),
+        title: `مخطط السبورة الذكية (${formatArabicTimestamp()}).png`,
+        category: 'تصميم / صورة',
+        notes: 'تم رسمه وحفظه مباشرة من السبورة التشاركية.',
+        author: getCurrentActorName(),
+        timestamp: formatArabicTimestamp(),
+        fileSize: 'صورة PNG',
+        dataUrl
+      };
+      state.files.unshift(newFile);
+      addHistoryEntry('ملف/بحث', newFile.title, newFile.author);
+      saveAndBroadcast();
+      showToast('تم حفظ مخطط السبورة في قسم الملفات والأبحاث 🎨');
+    });
+
+    // ==========================================
+    // 10. WHATSAPP-STYLE PRIVATE CHAT & VOICE NOTES
+    // ==========================================
+    let pendingChatAttachment = null;
+    let voiceRecInterval = null;
+    let voiceRecSeconds = 0;
+    let mediaRecorder = null;
+    let recordedAudioChunks = [];
+
+    document.getElementById('toggleEmojiBtn').addEventListener('click', () => {
+      document.getElementById('emojiPickerStrip').classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.emoji-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const inp = document.getElementById('chatTextInput');
+        inp.value += btn.textContent;
+        inp.focus();
+      });
+    });
+
+    document.getElementById('chatImageInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingChatAttachment = {
+          kind: 'image',
+          name: file.name,
+          dataUrl: ev.target.result
+        };
+        document.getElementById('chatAttachmentName').textContent = '🖼️ صورة: ' + file.name;
+        document.getElementById('chatAttachmentPreviewBar').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('chatFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingChatAttachment = {
+          kind: 'file',
+          name: file.name,
+          size: (file.size / 1024).toFixed(1) + ' KB',
+          dataUrl: ev.target.result
+        };
+        document.getElementById('chatAttachmentName').textContent = '📎 ملف: ' + file.name;
+        document.getElementById('chatAttachmentPreviewBar').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('cancelChatAttachmentBtn').addEventListener('click', () => {
+      pendingChatAttachment = null;
+      document.getElementById('chatAttachmentPreviewBar').classList.add('hidden');
+      document.getElementById('chatImageInput').value = '';
+      document.getElementById('chatFileInput').value = '';
+    });
+
+    function sendChatMessage() {
+      const inp = document.getElementById('chatTextInput');
+      const text = inp.value.trim();
+      if (!text && !pendingChatAttachment) return;
+
+      const nowTime = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+      const msg = {
+        id: 'msg-' + Date.now(),
+        sender: state.activeUser,
+        authorName: getCurrentActorName(),
+        type: pendingChatAttachment ? pendingChatAttachment.kind : 'text',
+        text: text || (pendingChatAttachment ? pendingChatAttachment.name : ''),
+        attachment: pendingChatAttachment,
+        timestamp: nowTime
+      };
+
+      state.chatMessages.push(msg);
+      if (pendingChatAttachment) {
+        addHistoryEntry('مرفق محادثة', `مشاركة ${pendingChatAttachment.name} في المحادثة`, msg.authorName);
+      }
+
+      inp.value = '';
+      pendingChatAttachment = null;
+      document.getElementById('chatAttachmentPreviewBar').classList.add('hidden');
+      document.getElementById('chatImageInput').value = '';
+      document.getElementById('chatFileInput').value = '';
+      saveAndBroadcast();
+    }
+
+    document.getElementById('sendChatMsgBtn').addEventListener('click', sendChatMessage);
+    document.getElementById('chatTextInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendChatMessage();
+    });
+
+    document.getElementById('startVoiceNoteBtn').addEventListener('click', async () => {
+      const bar = document.getElementById('voiceRecordingBar');
+      bar.classList.remove('hidden');
+      voiceRecSeconds = 0;
+      document.getElementById('voiceRecordTimer').textContent = '00:00';
+      clearInterval(voiceRecInterval);
+      voiceRecInterval = setInterval(() => {
+        voiceRecSeconds++;
+        const m = String(Math.floor(voiceRecSeconds / 60)).padStart(2, '0');
+        const s = String(voiceRecSeconds % 60).padStart(2, '0');
+        document.getElementById('voiceRecordTimer').textContent = `${m}:${s}`;
+      }, 1000);
+
+      recordedAudioChunks = [];
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = (ev) => {
+            if (ev.data.size > 0) recordedAudioChunks.push(ev.data);
+          };
+          mediaRecorder.start();
+        }
+      } catch (e) {
+        mediaRecorder = null;
+      }
+    });
+
+    document.getElementById('cancelVoiceNoteBtn').addEventListener('click', () => {
+      clearInterval(voiceRecInterval);
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        try { mediaRecorder.stop(); } catch (e) {}
+      }
+      document.getElementById('voiceRecordingBar').classList.add('hidden');
+    });
+
+    document.getElementById('finishVoiceNoteBtn').addEventListener('click', () => {
+      clearInterval(voiceRecInterval);
+      document.getElementById('voiceRecordingBar').classList.add('hidden');
+      const durFormatted = `0:${String(Math.max(1, voiceRecSeconds)).padStart(2, '0')}`;
+      const nowTime = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+
+      const finalizeVoiceMsg = (audioUrl) => {
+        const msg = {
+          id: 'msg-' + Date.now(),
+          sender: state.activeUser,
+          authorName: getCurrentActorName(),
+          type: 'voice',
+          duration: durFormatted,
+          audioUrl: audioUrl || null,
+          timestamp: nowTime,
+          audioNoteText: `رسالة صوتية (${durFormatted})`
+        };
+        state.chatMessages.push(msg);
+        addHistoryEntry('فويس نوت', `إرسال رسالة صوتية (${durFormatted})`, msg.authorName);
+        saveAndBroadcast();
+        showToast('تم إرسال الفويس نوت 🎤');
+      };
+
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedAudioChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+          reader.onload = (ev) => finalizeVoiceMsg(ev.target.result);
+          reader.readAsDataURL(blob);
+        };
+        try { mediaRecorder.stop(); } catch (e) { finalizeVoiceMsg(null); }
+      } else {
+        finalizeVoiceMsg(null);
+      }
+    });
+
+    function playVoiceNoteAudio(msgId, audioUrl) {
+      if (audioUrl) {
+        const audio = new Audio(audioUrl);
+        audio.play().catch(() => playSynthesizedVoiceNote());
+      } else {
+        playSynthesizedVoiceNote();
+      }
+      showToast('جاري تشغيل الفويس نوت 🔊');
+    }
+
+    function playSynthesizedVoiceNote() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const notes = [260, 310, 290, 340, 280, 320];
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.08, ctx.currentTime + idx * 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (idx + 1) * 0.17);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + idx * 0.18);
+          osc.stop(ctx.currentTime + (idx + 1) * 0.18);
+        });
+      } catch (e) {}
+    }
+
+    document.getElementById('simulatePartnerReplyBtn').addEventListener('click', () => {
+      const replies = [
+        { type: 'text', text: 'ممتاز جداً! راجعت التعديلات في الملف الرئيسي وكل شيء واضح ومرتب 👌' },
+        { type: 'voice', duration: '0:06', audioNoteText: 'فويس نوت من ' + state.partnerName + ': خلنا نعتمد الاقتراح الأول ونبدأ التنفيذ اليوم' },
+        { type: 'text', text: 'رفعت لك ملاحظة جديدة في قسم الأفكار، شوفها وعطني رأيك 🔥' }
+      ];
+      const pick = replies[Math.floor(Math.random() * replies.length)];
+      const nowTime = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+      state.chatMessages.push({
+        id: 'msg-' + Date.now(),
+        sender: 'partner',
+        authorName: state.partnerName,
+        type: pick.type,
+        text: pick.text || '',
+        duration: pick.duration || '0:05',
+        audioNoteText: pick.audioNoteText || '',
+        timestamp: nowTime
+      });
+      saveAndBroadcast();
+    });
+
+    function renderChat() {
+      const container = document.getElementById('chatMessagesContainer');
+      const countBadge = document.getElementById('chatCountBadge');
+      if (countBadge) countBadge.textContent = state.chatMessages.length;
+
+      container.innerHTML = state.chatMessages.map(m => {
+        const isMe = m.sender === state.activeUser;
+        const bubbleClass = isMe
+          ? 'bg-emerald-800/90 text-white rounded-2xl rounded-tr-sm ml-auto border border-emerald-700/50'
+          : 'bg-slate-800/95 text-slate-100 rounded-2xl rounded-tl-sm mr-auto border border-slate-700/60';
+
+        let bodyHtml = '';
+        if (m.type === 'voice') {
+          bodyHtml = `
+            <div class="flex items-center gap-3 min-w-[220px] py-1">
+              <button type="button" data-play-voice="${m.id}" class="w-9 h-9 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shrink-0 hover:bg-emerald-400 transition">
+                <i class="fa-solid fa-play text-xs"></i>
+              </button>
+              <div class="flex-1">
+                <div class="flex items-center gap-1 h-4">
+                  <span class="w-1 h-2 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-3.5 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-2.5 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-4 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-2 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-3 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-1.5 bg-emerald-300 rounded"></span>
+                  <span class="w-1 h-3.5 bg-emerald-300 rounded"></span>
+                </div>
+                <div class="text-xs text-emerald-200 mt-1">${escapeHtml(m.audioNoteText || 'رسالة صوتية')} (${escapeHtml(m.duration || '0:05')})</div>
+              </div>
+            </div>
+          `;
+        } else if (m.type === 'image' && m.attachment && m.attachment.dataUrl) {
+          bodyHtml = `
+            <div class="space-y-1.5">
+              <img src="${m.attachment.dataUrl}" data-lightbox-src="${m.attachment.dataUrl}" alt="صورة" class="max-h-52 rounded-xl object-cover cursor-pointer border border-white/10" />
+              ${m.text ? `<p class="text-xs sm:text-sm">${escapeHtml(m.text)}</p>` : ''}
+            </div>
+          `;
+        } else if (m.type === 'file' && m.attachment) {
+          bodyHtml = `
+            <div class="bg-slate-900/70 p-2.5 rounded-xl flex items-center justify-between gap-3 border border-white/10">
+              <div class="flex items-center gap-2.5 truncate">
+                <i class="fa-solid fa-file-arrow-down text-amber-400 text-lg"></i>
+                <div class="truncate">
+                  <div class="text-xs sm:text-sm font-bold truncate">${escapeHtml(m.attachment.name)}</div>
+                  <div class="text-[11px] text-slate-400">${escapeHtml(m.attachment.size || 'ملف مرفق')}</div>
+                </div>
+              </div>
+              <a href="${m.attachment.dataUrl || '#'}" download="${escapeHtml(m.attachment.name)}" class="text-xs bg-emerald-600 px-3 py-1 rounded-lg text-white shrink-0">تنزيل</a>
+            </div>
+          `;
+        } else {
+          bodyHtml = `<p class="text-xs sm:text-sm leading-relaxed break-words">${escapeHtml(m.text)}</p>`;
+        }
+
+        return `
+          <div class="max-w-[82%] sm:max-w-[70%] p-3.5 shadow ${bubbleClass}">
+            <div class="text-[11px] font-bold ${isMe ? 'text-emerald-300' : 'text-indigo-300'} mb-1">${escapeHtml(m.authorName)}</div>
+            ${bodyHtml}
+            <div class="flex items-center justify-end gap-1 text-[10px] text-slate-300/80 mt-1.5">
+              <span>${escapeHtml(m.timestamp)}</span>
+              ${isMe ? '<i class="fa-solid fa-check-double text-sky-400 text-[10px]"></i>' : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.scrollTop = container.scrollHeight;
+
+      container.querySelectorAll('[data-play-voice]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-play-voice');
+          const msg = state.chatMessages.find(x => x.id === id);
+          if (msg) playVoiceNoteAudio(id, msg.audioUrl);
+        });
+      });
+
+      container.querySelectorAll('[data-lightbox-src]').forEach(img => {
+        img.addEventListener('click', () => {
+          const src = img.getAttribute('data-lightbox-src');
+          document.getElementById('lightboxImage').src = src;
+          const modal = document.getElementById('imageLightboxModal');
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        });
+      });
+    }
+
+    document.getElementById('closeLightboxBtn').addEventListener('click', () => {
+      const modal = document.getElementById('imageLightboxModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // ==========================================
+    // 11. CHRONOLOGICAL HISTORY TIMELINE
+    // ==========================================
+    function renderHistoryTimeline() {
+      const container = document.getElementById('historyTimelineContainer');
+      document.getElementById('historyCountBadge').textContent = state.historyLog.length;
+
+      container.innerHTML = state.historyLog.map(h => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+            <div>
+              <div class="text-sm font-bold text-white">${escapeHtml(h.title)}</div>
+              <div class="text-xs text-slate-400 mt-0.5">
+                القسم: <span class="text-emerald-400 font-semibold">${escapeHtml(h.type)}</span> • بواسطة: <strong class="text-slate-200">${escapeHtml(h.author)}</strong>
+              </div>
+            </div>
+          </div>
+          <span class="bg-slate-900 text-amber-300 border border-slate-700 px-3 py-1 rounded-lg font-mono text-xs shrink-0">
+            <i class="fa-regular fa-clock ml-1"></i>${escapeHtml(h.timestamp)}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
+    // 12. PRESENCE, IDENTITY SWITCHER & SETTINGS
+    // ==========================================
+    document.getElementById('togglePartnerOnlineBtn').addEventListener('click', () => {
+      state.partnerOnline = !state.partnerOnline;
+      saveAndBroadcast();
+      showToast(state.partnerOnline ? `🟢 دخل ${state.partnerName} إلى التطبيق الآن (متصل)` : `⚪ غادر ${state.partnerName} التطبيق مؤقتاً`);
+    });
+
+    document.getElementById('switchIdentityBtn').addEventListener('click', () => {
+      state.activeUser = state.activeUser === 'me' ? 'partner' : 'me';
+      saveAndBroadcast();
+      showToast(`أنت تتصفح وتكتب الآن بصفتك: ${getCurrentActorName()}`);
+    });
+
+    document.getElementById('copyRoomBtn').addEventListener('click', () => {
+      const code = state.roomCode;
+      try {
+        navigator.clipboard.writeText(code);
+      } catch (e) {}
+      showToast(`تم نسخ رمز المكتب السري: ${code}`);
+    });
+
+    document.getElementById('openSettingsModalBtn').addEventListener('click', () => {
+      document.getElementById('settingProjectTitle').value = state.projectTitle;
+      document.getElementById('settingMyName').value = state.myName;
+      document.getElementById('settingPartnerName').value = state.partnerName;
+      document.getElementById('settingRoomCode').value = state.roomCode;
+      document.getElementById('settingDeviceRole').value = state.activeUser;
+      document.getElementById('settingCloudUrl').value = state.cloudDbUrl || '';
+      const modal = document.getElementById('settingsModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    document.getElementById('closeSettingsModalBtn').addEventListener('click', () => {
+      const modal = document.getElementById('settingsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+      state.projectTitle = document.getElementById('settingProjectTitle').value.trim() || 'مكتبنا الافتراضي الخاص';
+      state.myName = document.getElementById('settingMyName').value.trim() || 'أحمد';
+      state.partnerName = document.getElementById('settingPartnerName').value.trim() || 'خالد';
+      state.roomCode = document.getElementById('settingRoomCode').value.trim() || 'DUO-8842';
+      state.activeUser = document.getElementById('settingDeviceRole').value || 'me';
+      state.cloudDbUrl = document.getElementById('settingCloudUrl').value.trim();
+      const modal = document.getElementById('settingsModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      saveAndBroadcast();
+      showToast('تم حفظ إعدادات المكتب الخاص بنجاح ✅');
+    });
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderAll(fromRemoteSync = false) {
+      document.getElementById('projectTitleDisplay').textContent = state.projectTitle;
+      document.getElementById('roomCodeBadge').textContent = state.roomCode;
+      document.getElementById('myNameLabel').textContent = `${state.myName}`;
+      document.getElementById('myAvatarBadge').textContent = state.myName.charAt(0);
+      document.getElementById('localVideoInitial').textContent = state.myName.charAt(0);
+      document.getElementById('localVideoName').textContent = state.myName;
+
+      document.getElementById('partnerNameLabel').textContent = `${state.partnerName}`;
+      document.getElementById('partnerAvatarBadge').textContent = state.partnerName.charAt(0);
+      document.getElementById('partnerVideoInitial').textContent = state.partnerName.charAt(0);
+      document.getElementById('partnerVideoName').textContent = state.partnerName;
+      document.getElementById('partnerOverlayTag').textContent = state.partnerName;
+
+      document.getElementById('chatHeaderAvatar').textContent = state.partnerName.charAt(0);
+      document.getElementById('chatPartnerTitle').textContent = `${state.partnerName} (المحادثة الخاصة)`;
+
+      const pDot = document.getElementById('partnerDot');
+      const pStatus = document.getElementById('partnerStatusText');
+      const chatDot = document.getElementById('chatHeaderOnlineDot');
+      const chatSub = document.getElementById('chatPartnerSubStatus');
+
+      if (state.partnerOnline) {
+        pDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-ring';
+        pStatus.textContent = 'متصل الآن';
+        pStatus.className = 'text-[11px] text-emerald-400 font-medium';
+        chatDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 absolute bottom-0 left-0 ring-2 ring-slate-900';
+        chatSub.textContent = 'متصل الآن (أونلاين) • يظهر لكما فقط';
+        chatSub.className = 'text-xs text-emerald-400';
+      } else {
+        pDot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500';
+        pStatus.textContent = 'غير متصل';
+        pStatus.className = 'text-[11px] text-slate-400';
+        chatDot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500 absolute bottom-0 left-0 ring-2 ring-slate-900';
+        chatSub.textContent = 'غير متصل حالياً';
+        chatSub.className = 'text-xs text-slate-400';
+      }
+
+      document.getElementById('activeIdentityBtnText').textContent = `التجربة بصفتي: ${getCurrentActorName()}`;
+
+      if (document.activeElement !== docEditor || fromRemoteSync) {
+        docEditor.innerHTML = state.masterDocHtml;
+      }
+      updateDocStats();
+
+      const snapsContainer = document.getElementById('docSnapshotsList');
+      snapsContainer.innerHTML = state.docSnapshots.map(s => `
+        <div class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0 text-xs flex items-center gap-2">
+          <span class="text-emerald-400 font-semibold">${escapeHtml(s.author)}</span>
+          <span class="text-slate-400 font-mono text-[11px]">${escapeHtml(s.timestamp)}</span>
+        </div>
+      `).join('');
+
+      renderPartnerStream();
+      renderFiles();
+      renderIdeas();
+      renderSuggestions();
+      renderTasks();
+      renderHistoryTimeline();
+      renderChat();
+    }
+
+    function updateP2PBadge(statusText, isConnected) {
+      const lbl = document.getElementById('p2pStatusLabel');
+      const btn = document.getElementById('connectP2PBtn');
+      if (lbl) lbl.textContent = statusText;
+      if (btn) {
+        btn.className = isConnected
+          ? 'bg-emerald-600 text-white px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md'
+          : 'bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5';
+      }
+    }
+
+    function setupDataConnection(conn) {
+      peerConn = conn;
+      conn.on('open', () => {
+        state.partnerOnline = true;
+        updateP2PBadge('متصل مباشرة ✓', true);
+        showToast('🔗 تم الاتصال المباشر مع جهاز صاحبك! جاري مزامنة كافة البيانات...');
+        conn.send({ type: 'STATE_MERGE', state });
+        renderAll();
+      });
+      conn.on('data', (payload) => {
+        if (payload && payload.type === 'STATE_MERGE') {
+          mergeIncomingState(payload.state);
+        }
+      });
+      conn.on('close', () => {
+        state.partnerOnline = false;
+        updateP2PBadge('ربط الجهازين', false);
+        renderAll();
+      });
+    }
+
+    function initPeerP2PConnection() {
+      if (typeof Peer === 'undefined') {
+        showToast('مكتبة الاتصال المباشر تعمل عند فتح الموقع عبر الإنترنت');
+        return;
+      }
+      if (peerInstance) {
+        try { peerInstance.destroy(); } catch (e) {}
+      }
+      const cleanCode = (state.roomCode || 'DUO8842').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+      const myRoleSuffix = state.activeUser === 'me' ? 'p1' : 'p2';
+      const targetRoleSuffix = state.activeUser === 'me' ? 'p2' : 'p1';
+      const myPeerId = `duo-office-${cleanCode}-${myRoleSuffix}`;
+      const partnerPeerId = `duo-office-${cleanCode}-${targetRoleSuffix}`;
+
+      updateP2PBadge('جاري الربط...', false);
+      try {
+        peerInstance = new Peer(myPeerId);
+        peerInstance.on('open', () => {
+          showToast(`تم تفعيل غرفة الاتصال (${state.roomCode}) — بانتظار الطرف الآخر أو الاتصال به...`);
+          const outgoing = peerInstance.connect(partnerPeerId, { reliable: true });
+          setupDataConnection(outgoing);
+          if (localStream) {
+            const call = peerInstance.call(partnerPeerId, localStream);
+            handleMediaCall(call);
+          }
+        });
+        peerInstance.on('connection', (incomingConn) => {
+          setupDataConnection(incomingConn);
+        });
+        peerInstance.on('call', (incomingCall) => {
+          incomingCall.answer(localStream || undefined);
+          handleMediaCall(incomingCall);
+        });
+        peerInstance.on('error', () => {
+          updateP2PBadge('ربط الجهازين', false);
+        });
+      } catch (e) {}
+    }
+
+    function handleMediaCall(call) {
+      activeMediaCall = call;
+      call.on('stream', (remoteStream) => {
+        const remoteVideo = document.getElementById('partnerLiveVideo');
+        if (remoteVideo) {
+          remoteVideo.srcObject = remoteStream;
+          remoteVideo.classList.remove('hidden');
+          document.getElementById('partnerCameraOffView').classList.add('hidden');
+          document.getElementById('partnerVideoCanvas').classList.add('hidden');
+          videoDrawer.classList.remove('hidden');
+        }
+      });
+    }
+
+    document.getElementById('connectP2PBtn').addEventListener('click', () => {
+      initPeerP2PConnection();
+      pullFromCloudDb();
+    });
+
+    // Export & Import Full Backup JSON
+    document.getElementById('exportBackupBtn').addEventListener('click', () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute('href', dataStr);
+      a.setAttribute('download', `نسخة-مكتبنا-${state.roomCode}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('تم تنزيل نسخة احتياطية شاملة لكل محتويات المكتب 💾');
+    });
+
+    document.getElementById('importBackupInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const imported = JSON.parse(ev.target.result);
+          mergeIncomingState(imported);
+          saveAndBroadcast();
+          showToast('تم دمج واسترجاع النسخة الاحتياطية بنجاح دون فقدان أي بيانات ✅');
+        } catch (err) {
+          showToast('ملف النسخة الاحتياطية غير صالح');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    window.addEventListener('load', () => {
+      renderAll();
+      updateMediaUI();
+      pullFromCloudDb();
+    });
+  </script>
+</body>
+</html>
+```
